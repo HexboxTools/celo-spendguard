@@ -1,0 +1,116 @@
+{
+  "project": "Self",
+  "query": "Self protocol zk passport",
+  "repo": "https://github.com/selfxyz/self",
+  "started": "2026-11-25T21:58:51.959Z",
+  "finished": "2026-11-25T21:59:09.702Z",
+  "network": "celo",
+  "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+  "payerKind": "eoa",
+  "score": {
+    "total": 34,
+    "parts": {
+      "github": 24,
+      "hackerNews": 0,
+      "x": 0,
+      "reddit": 10
+    }
+  },
+  "github": {
+    "url": "https://github.com/selfxyz/self",
+    "stars": 1267,
+    "forks": 229,
+    "openIssues": 37,
+    "pushedAt": "2026-11-25T08:32:54Z",
+    "createdAt": "2023-07-22T11:22:16Z",
+    "commits30d": 21,
+    "description": "Prove your self"
+  },
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "x": {
+    "ok": true,
+    "count": 0,
+    "recent": 0,
+    "views": 0,
+    "sample": [],
+    "source": "youtube",
+    "xError": "{\"error\":\"provider_error\",\"providerStatus\":400,\"paymentSettled\":false,\"retryable\":false,\"correlationId\":\"bc46be7b9fdf\"}"
+  },
+  "reddit": {
+    "ok": true,
+    "count": 7,
+    "score": 12,
+    "comments": 14,
+    "sample": [
+      {
+        "title": "iPhone 18 Pro Max Official Mercantile or US Import + Self PTA?",
+        "score": 1,
+        "comments": 1,
+        "sub": "PakistaniTech",
+        "url": "https://www.reddit.com/r/PakistaniTech/comments/1y5jz8z/iphone_18_pro_max_official_mercantile_or_us/"
+      },
+      {
+        "title": "UK Standard Visitor Visa and UK ETA 2026 Official UKVI Guidance on Flight Reservations VFS Self Upload and Hotel Proof Without Non Refundable Tickets",
+        "score": 1,
+        "comments": 0,
+        "sub": null,
+        "url": "https://www.reddit.com/r/u_onwardticketUs/comments/1y5j9lw/uk_standard_visitor_visa_and_uk_eta_2026_official/"
+      },
+      {
+        "title": "Anyone want to closed-test an Android app for driving VS Code agent sessions?",
+        "score": 1,
+        "comments": 0,
+        "sub": "GithubCopilot",
+        "url": "https://www.reddit.com/r/GithubCopilot/comments/1y5ixz4/anyone_want_to_closedtest_an_android_app_for/"
+      }
+    ]
+  },
+  "receipts": [
+    {
+      "at": "2026-11-25T21:59:02.515Z",
+      "day": "2026-11-25",
+      "network": "eip155:42220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/youtube/videos/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0xcebA9300f2b948710d2653dD7B07f33A8B32118C",
+      "amount": "5000",
+      "tx": "0x4c25c1e5f667cfe984b5e4311948e9f9a6d8b8e6740138680a4c8fa222c91e1d",
+      "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+      "rail": "eoa-eip3009",
+      "source": "youtube.videos.search",
+      "query": "Self protocol zk passport"
+    },
+    {
+      "at": "2026-11-25T21:59:09.689Z",
+      "day": "2026-11-25",
+      "network": "eip155:42220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/reddit/posts/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0xcebA9300f2b948710d2653dD7B07f33A8B32118C",
+      "amount": "5000",
+      "tx": "0x4bc8aecf9ec4a486ea9df322310acd7f48429fc60a43535efb82acfb52580a76",
+      "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+      "rail": "eoa-eip3009",
+      "source": "reddit.posts.search",
+      "query": "Self protocol zk passport"
+    }
+  ],
+  "budget": {
+    "network": "eip155:42220",
+    "payments": 6,
+    "refusals": 0,
+    "totalAtomic": "30000",
+    "spentTodayAtomic": "30000",
+    "dailyCapAtomic": "50000",
+    "maxPerCallAtomic": "10000"
+  },
+  "errors": []
+}

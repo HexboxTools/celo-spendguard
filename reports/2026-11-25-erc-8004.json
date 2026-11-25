@@ -1,0 +1,138 @@
+{
+  "project": "ERC-8004",
+  "query": "ERC-8004 trustless agents",
+  "repo": "https://github.com/erc-8004/erc-8004-contracts",
+  "started": "2026-11-25T21:59:11.343Z",
+  "finished": "2026-11-25T21:59:28.725Z",
+  "network": "celo",
+  "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+  "payerKind": "eoa",
+  "score": {
+    "total": 41,
+    "parts": {
+      "github": 12,
+      "hackerNews": 0,
+      "x": 20,
+      "reddit": 9
+    }
+  },
+  "github": {
+    "url": "https://github.com/erc-8004/erc-8004-contracts",
+    "stars": 242,
+    "forks": 116,
+    "openIssues": 64,
+    "pushedAt": "2026-08-15T16:26:49Z",
+    "createdAt": "2025-10-08T15:54:57Z",
+    "commits30d": 0,
+    "description": "Registry contracts curated by the 8004 team"
+  },
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "x": {
+    "ok": true,
+    "count": 11,
+    "recent": 11,
+    "views": 306,
+    "sample": [
+      {
+        "title": "AI Agent Identity Standards: ERC-8004 & Beyond | Prem Makeig | EIP Hub @ Devcon 8",
+        "views": 20,
+        "author": "Ether World",
+        "published": "4 days ago",
+        "url": "https://www.youtube.com/watch?v=jl03dTAJWH0"
+      },
+      {
+        "title": "AI Agents Take a Job and Get Paid in USDC | ERC-8004 and ERC-8183 on Arc【Easy Chat】",
+        "views": 0,
+        "author": "Chain Internals",
+        "published": "13 hours ago",
+        "url": "https://www.youtube.com/watch?v=GDus2snoCHw"
+      },
+      {
+        "title": "AI Agents Take a Job and Get Paid in USDC | ERC-8004 and ERC-8183 on Arc (Demo + Explainer)",
+        "views": 3,
+        "author": "Chain Internals",
+        "published": "4 days ago",
+        "url": "https://www.youtube.com/watch?v=Nkq0puxgYNg"
+      }
+    ],
+    "source": "youtube",
+    "xError": "{\"error\":\"provider_error\",\"providerStatus\":400,\"paymentSettled\":false,\"retryable\":false,\"correlationId\":\"5bf6c7af11d6\"}"
+  },
+  "reddit": {
+    "ok": true,
+    "count": 7,
+    "score": 10,
+    "comments": 12,
+    "sample": [
+      {
+        "title": "2023 Topps Shohei Ohtani 1988 All-Star Relic Black /199 BOOKEND FS $160 shipped",
+        "score": 2,
+        "comments": 0,
+        "sub": "BaseballCardsForSale",
+        "url": "https://www.reddit.com/gallery/1y5c7z2"
+      },
+      {
+        "title": "AI agents are starting to hold their own crypto wallets — feels like a bigger shift than it's getting credit for",
+        "score": 1,
+        "comments": 0,
+        "sub": null,
+        "url": "https://www.reddit.com/r/u_Emergency_Second_721/comments/1y4pjfx/ai_agents_are_starting_to_hold_their_own_crypto/"
+      },
+      {
+        "title": "Tau: The self-reasoning financial system",
+        "score": 3,
+        "comments": 10,
+        "sub": "defi",
+        "url": "https://www.reddit.com/r/defi/comments/1y4c59u/tau_the_selfreasoning_financial_system/"
+      }
+    ]
+  },
+  "receipts": [
+    {
+      "at": "2026-11-25T21:59:21.707Z",
+      "day": "2026-11-25",
+      "network": "eip155:42220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/youtube/videos/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0xcebA9300f2b948710d2653dD7B07f33A8B32118C",
+      "amount": "5000",
+      "tx": "0xe4c536de4862ba3130634274e81b2859de8a56ef841bd81d13667caf03321e65",
+      "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+      "rail": "eoa-eip3009",
+      "source": "youtube.videos.search",
+      "query": "ERC-8004 trustless agents"
+    },
+    {
+      "at": "2026-11-25T21:59:28.715Z",
+      "day": "2026-11-25",
+      "network": "eip155:42220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/reddit/posts/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0xcebA9300f2b948710d2653dD7B07f33A8B32118C",
+      "amount": "5000",
+      "tx": "0xc4ad606ca6a36e416ebc64d486037017205c8516240b7ff1b12c9e4f215a9fc3",
+      "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+      "rail": "eoa-eip3009",
+      "source": "reddit.posts.search",
+      "query": "ERC-8004 trustless agents"
+    }
+  ],
+  "budget": {
+    "network": "eip155:42220",
+    "payments": 8,
+    "refusals": 0,
+    "totalAtomic": "40000",
+    "spentTodayAtomic": "40000",
+    "dailyCapAtomic": "50000",
+    "maxPerCallAtomic": "10000"
+  },
+  "errors": []
+}

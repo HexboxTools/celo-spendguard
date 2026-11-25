@@ -4,13 +4,32 @@
   "description": "A research agent by Hexbox Tools that writes traction briefs for projects and pays for its own data per request over x402 on Celo, inside a daily spend cap, a per-call cap and a payee allowlist set by its owner. Every payment is listed with its settlement tx.",
   "image": "https://github.com/HexboxTools.png",
   "services": [
-    { "name": "web", "endpoint": "https://github.com/HexboxTools/celo-spendguard" },
-    { "name": "reports", "endpoint": "https://github.com/HexboxTools/celo-spendguard/tree/main/reports" },
-    { "name": "ledger", "endpoint": "https://github.com/HexboxTools/celo-spendguard/blob/main/ledger/celo.jsonl" },
-    { "name": "email", "endpoint": "mailto:hexbox@mail.grokbot.com" }
+    {
+      "name": "web",
+      "endpoint": "https://github.com/HexboxTools/celo-spendguard"
+    },
+    {
+      "name": "reports",
+      "endpoint": "https://github.com/HexboxTools/celo-spendguard/tree/main/reports"
+    },
+    {
+      "name": "ledger",
+      "endpoint": "https://github.com/HexboxTools/celo-spendguard/blob/main/ledger/celo.jsonl"
+    },
+    {
+      "name": "email",
+      "endpoint": "mailto:hexbox@mail.grokbot.com"
+    }
   ],
   "x402Support": true,
   "active": true,
-  "registrations": [],
-  "supportedTrust": ["reputation"]
+  "registrations": [
+    {
+      "agentId": 10134,
+      "agentRegistry": "eip155:42220:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
+    }
+  ],
+  "supportedTrust": [
+    "reputation"
+  ]
 }

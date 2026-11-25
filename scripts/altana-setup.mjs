@@ -31,7 +31,7 @@ const opts = {
   expiry: Math.floor(Date.now() / 1000) + days * 86400,
   x402Tokens: [token],
   register: process.env.REGISTER_SESSION === "1",
-  feeToken: [token],
+  feeToken: process.env.FEE_TOKEN === "native" ? undefined : [token], // FEE_TOKEN=native pays the relay in CELO
   agentIdentity: false, // registered separately with our own record (scripts/register-8004.mjs)
 };
 const q = await client.quoteGrantSession(opts);

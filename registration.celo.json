@@ -1,0 +1,10 @@
+{
+  "network": "celo",
+  "chainId": 42220,
+  "registry": "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
+  "agentId": "10134",
+  "owner": "0xC17733165C47f80E56b1c6eD61E8988296CA8f82",
+  "tx": "0xe47d71bb03cc18e736e43b0a3a5d9a31b750db81ec299da6c9205f631feb36e4",
+  "uri": "https://raw.githubusercontent.com/HexboxTools/celo-spendguard/main/agent.json",
+  "at": "2026-11-25T21:50:29.438Z"
+}

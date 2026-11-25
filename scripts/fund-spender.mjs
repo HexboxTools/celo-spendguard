@@ -1,0 +1,13 @@
+import fs from "node:fs"; import * as v from "viem"; import { privateKeyToAccount, generatePrivateKey } from "viem/accounts"; import { celo } from "viem/chains";
+import { withAttribution } from "@celo/attribution-tags"; import { readKey } from "../src/agent.mjs";
+const F="/home/box/secrets/celo-hexbox-spender.txt";
+if (!fs.existsSync(F)) fs.writeFileSync(F, "spender_key="+generatePrivateKey()+"\n", { mode: 0o600 });
+const sp = privateKeyToAccount(readKey(F)); console.log("spender", sp.address);
+const acct = privateKeyToAccount(readKey("/home/box/secrets/celo-hexbox.txt"));
+const pub = v.createPublicClient({ chain: celo, transport: v.http("https://forno.celo.org") });
+const w = v.createWalletClient({ account: acct, chain: celo, transport: v.http("https://forno.celo.org") }).extend(withAttribution("celo_73a54a0daad9"));
+const USDC="0xcebA9300f2b948710d2653dD7B07f33A8B32118C";
+const amt = BigInt(process.argv[2]||"50000");
+const h = await w.writeContract({ address: USDC, abi: v.erc20Abi, functionName: "transfer", args: [sp.address, amt] });
+const r = await pub.waitForTransactionReceipt({ hash: h }); console.log("topup", h, r.status);
+for (const a of [acct.address, sp.address]) console.log(a, Number(await pub.readContract({ address: USDC, abi: v.erc20Abi, functionName: "balanceOf", args: [a] }))/1e6);

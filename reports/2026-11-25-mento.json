@@ -1,0 +1,94 @@
+{
+  "project": "Mento",
+  "query": "Mento stablecoin",
+  "repo": "https://github.com/mento-protocol/mento-core",
+  "started": "2026-11-25T21:58:34.902Z",
+  "finished": "2026-11-25T21:58:49.727Z",
+  "network": "celo",
+  "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+  "payerKind": "eoa",
+  "score": {
+    "total": 6,
+    "parts": {
+      "github": 6,
+      "hackerNews": 0,
+      "x": 0,
+      "reddit": 0
+    }
+  },
+  "github": {
+    "url": "https://github.com/mento-protocol/mento-core",
+    "stars": 11,
+    "forks": 16,
+    "openIssues": 3,
+    "pushedAt": "2026-07-24T14:57:23Z",
+    "createdAt": "2022-08-18T16:23:28Z",
+    "commits30d": 0,
+    "description": "Core smart contracts of the Mento protocol."
+  },
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "x": {
+    "ok": true,
+    "count": 0,
+    "recent": 0,
+    "views": 0,
+    "sample": [],
+    "source": "youtube",
+    "xError": "{\"error\":\"provider_error\",\"providerStatus\":400,\"paymentSettled\":false,\"retryable\":false,\"correlationId\":\"d8d54db77615\"}"
+  },
+  "reddit": {
+    "ok": true,
+    "count": 0,
+    "score": 0,
+    "comments": 0,
+    "sample": []
+  },
+  "receipts": [
+    {
+      "at": "2026-11-25T21:58:44.201Z",
+      "day": "2026-11-25",
+      "network": "eip155:42220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/youtube/videos/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0xcebA9300f2b948710d2653dD7B07f33A8B32118C",
+      "amount": "5000",
+      "tx": "0xe63ff6d9e2fd145b4297696453f046e89ff66d8212b1ccdd1c17814daad39148",
+      "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+      "rail": "eoa-eip3009",
+      "source": "youtube.videos.search",
+      "query": "Mento stablecoin"
+    },
+    {
+      "at": "2026-11-25T21:58:49.726Z",
+      "day": "2026-11-25",
+      "network": "eip155:42220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/reddit/posts/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0xcebA9300f2b948710d2653dD7B07f33A8B32118C",
+      "amount": "5000",
+      "tx": "0x83ee94723a23812c78bca4bd22910760e66b59f65ba06e469aef0736eb28cd62",
+      "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+      "rail": "eoa-eip3009",
+      "source": "reddit.posts.search",
+      "query": "Mento stablecoin"
+    }
+  ],
+  "budget": {
+    "network": "eip155:42220",
+    "payments": 4,
+    "refusals": 0,
+    "totalAtomic": "20000",
+    "spentTodayAtomic": "20000",
+    "dailyCapAtomic": "50000",
+    "maxPerCallAtomic": "10000"
+  },
+  "errors": []
+}

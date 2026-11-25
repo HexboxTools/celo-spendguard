@@ -1,0 +1,153 @@
+{
+  "project": "x402",
+  "query": "x402 payments",
+  "repo": "x402-foundation/x402",
+  "started": "2026-11-25T21:58:05.815Z",
+  "finished": "2026-11-25T21:58:21.106Z",
+  "network": "celo",
+  "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+  "payerKind": "eoa",
+  "score": {
+    "total": 50,
+    "parts": {
+      "github": 0,
+      "hackerNews": 11,
+      "x": 29,
+      "reddit": 10
+    }
+  },
+  "github": null,
+  "hackerNews": {
+    "stories": 77,
+    "points": 48,
+    "top": [
+      {
+        "title": "Show HN: AgentBudget – Real-time dollar budgets for AI agents",
+        "points": 7,
+        "comments": 8,
+        "url": "https://news.ycombinator.com/item?id=47133305",
+        "at": "2026-02-24T05:46:17Z"
+      },
+      {
+        "title": "I analyzed all 14,865 listings in Coinbase's x402 agent-payment registry",
+        "points": 4,
+        "comments": 0,
+        "url": "https://news.ycombinator.com/item?id=49084398",
+        "at": "2026-07-28T14:25:07Z"
+      },
+      {
+        "title": "Show HN: Tilde Pay – Give your AI agent a bank account to pay for things",
+        "points": 4,
+        "comments": 6,
+        "url": "https://news.ycombinator.com/item?id=49070028",
+        "at": "2026-07-27T14:13:55Z"
+      }
+    ]
+  },
+  "x": {
+    "ok": true,
+    "count": 20,
+    "recent": 20,
+    "views": 47584,
+    "sample": [
+      {
+        "title": "x402 Explained in 5 Minutes: How AI Agents Pay",
+        "views": 114,
+        "author": "TruePointAgentTools",
+        "published": "3 weeks ago",
+        "url": "https://www.youtube.com/watch?v=53XLYME3Wxc"
+      },
+      {
+        "title": "Your Agent Just Paid for Nothing: 6 Attacks on x402 Payments - Ishween Kaur, SoFi",
+        "views": 6759,
+        "author": "AI Engineer",
+        "published": "3 weeks ago",
+        "url": "https://www.youtube.com/watch?v=YU1uD_YkpjU"
+      },
+      {
+        "title": "OpenMind Demo: x402 Payment Standard on Pi Testnet",
+        "views": 23839,
+        "author": "Pi Network",
+        "published": "7 days ago",
+        "url": "https://www.youtube.com/watch?v=bb-KrTaBoTA"
+      }
+    ],
+    "source": "youtube",
+    "xError": "{\"error\":\"provider_error\",\"providerStatus\":400,\"paymentSettled\":false,\"retryable\":false,\"correlationId\":\"b915bf9bb1d1\"}"
+  },
+  "reddit": {
+    "ok": true,
+    "count": 7,
+    "score": 11,
+    "comments": 1,
+    "sample": [
+      {
+        "title": "[Open Tool] Built an HTTP 402 Pay-Per-Call Crypto Risk, DEX Slippage & Perp Arbitrage M2M Oracle for LangChain / CrewAI Agents (3 Free Calls/Day, 0.25 USDC On-C",
+        "score": 1,
+        "comments": 1,
+        "sub": "aiagents",
+        "url": "https://www.reddit.com/r/aiagents/comments/1y5a0xk/open_tool_built_an_http_402_paypercall_crypto/"
+      },
+      {
+        "title": "Built an M2M HTTP-402 Token Risk, AMM Price Impact & Perp Funding Arbitrage API (Sub-5ms SWR Cache + Net APR after Taker Fees)",
+        "score": 3,
+        "comments": 0,
+        "sub": "defi",
+        "url": "https://www.reddit.com/r/defi/comments/1y59enx/built_an_m2m_http402_token_risk_amm_price_impact/"
+      },
+      {
+        "title": "[Open Tool] Built an HTTP 402 Pay-Per-Call Crypto Risk, DEX Slippage & Perp Arbitrage M2M Oracle for LangChain / CrewAI Agents (3 Free Calls/Day, 0.25 USDC On-C",
+        "score": 1,
+        "comments": 0,
+        "sub": "LangChain",
+        "url": "https://www.reddit.com/r/LangChain/comments/1y58wwq/open_tool_built_an_http_402_paypercall_crypto/"
+      }
+    ]
+  },
+  "receipts": [
+    {
+      "at": "2026-11-25T21:58:15.730Z",
+      "day": "2026-11-25",
+      "network": "eip155:42220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/youtube/videos/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0xcebA9300f2b948710d2653dD7B07f33A8B32118C",
+      "amount": "5000",
+      "tx": "0xe919e9b10c038c37292cd4f60140db6962d274697e29478ae88e5a6bb0ca8c46",
+      "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+      "rail": "eoa-eip3009",
+      "source": "youtube.videos.search",
+      "query": "x402 payments"
+    },
+    {
+      "at": "2026-11-25T21:58:21.101Z",
+      "day": "2026-11-25",
+      "network": "eip155:42220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/reddit/posts/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0xcebA9300f2b948710d2653dD7B07f33A8B32118C",
+      "amount": "5000",
+      "tx": "0xb11bb5cf8295f22ff1d9745fa0fccd79dfc4f4c0ecdf3f8bbb7de2160b472fb3",
+      "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+      "rail": "eoa-eip3009",
+      "source": "reddit.posts.search",
+      "query": "x402 payments"
+    }
+  ],
+  "budget": {
+    "network": "eip155:42220",
+    "payments": 2,
+    "refusals": 0,
+    "totalAtomic": "10000",
+    "spentTodayAtomic": "10000",
+    "dailyCapAtomic": "50000",
+    "maxPerCallAtomic": "10000"
+  },
+  "errors": [
+    "github: https://api.github.com/repos/x402-foundation/x402 -> 403"
+  ]
+}

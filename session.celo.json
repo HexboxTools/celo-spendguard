@@ -1,0 +1,24 @@
+{
+  "walletAddress": "0xC17733165C47f80E56b1c6eD61E8988296CA8f82",
+  "publicKey": "0x0480fb12ea0c3fafc9132144336dc26f13fda899fad0ac8aed01e1b6b5713f7e963b6d3b6214441c716fa8a5edd3b1457dce9d3e87508a75a9dc217449ed602a6c",
+  "permissions": {
+    "calls": [
+      {
+        "to": "0x48065fbBE25f71C9282ddf5e1cD6D6A887483D5e"
+      }
+    ],
+    "spend": [
+      {
+        "limit": "50000",
+        "period": "day",
+        "token": "0x48065fbBE25f71C9282ddf5e1cD6D6A887483D5e"
+      },
+      {
+        "limit": "50000",
+        "period": "day",
+        "token": "0xcebA9300f2b948710d2653dD7B07f33A8B32118C"
+      }
+    ]
+  },
+  "expiry": 1796853153
+}

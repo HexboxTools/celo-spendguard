@@ -26,7 +26,11 @@ export function createAltanaPayer({ session, policy, networkName = "celo", appCo
     const probe = await fetchImpl(url, init);
     if (probe.status !== 402) return { res: probe, paid: false };
     const required = await readRequirements(probe);
-    const req = (required?.accepts || []).find((r) => r.network === policy.network && (!policy.allowedAssets.size || policy.allowedAssets.has(String(r.asset).toLowerCase())));
+    // Prefer the token the session's onchain cap covers (USDT on mainnet), so every payment
+    // is measured against that cap; fall back to any allowlisted asset.
+    const offers = (required?.accepts || []).filter((r) => r.network === policy.network && (!policy.allowedAssets.size || policy.allowedAssets.has(String(r.asset).toLowerCase())));
+    const capTokens = (session.permissions?.spend || []).map((c) => String(c.token || "").toLowerCase());
+    const req = offers.find((r) => capTokens.includes(String(r.asset).toLowerCase())) || offers[0];
     if (!req) {
       policy.record({ kind: "refused", url, reason: "no offer on an allowlisted asset/network", payer: session.walletAddress });
       return { res: probe, paid: false };
@@ -39,7 +43,7 @@ export function createAltanaPayer({ session, policy, networkName = "celo", appCo
     policy.reserve(req.amount);
     let res;
     try {
-      res = await client.fetchWithX402({ session, url, init, chainId: net.chainId, preferRail: "eip3009" });
+      res = await withOnlyAsset(req.asset, () => client.fetchWithX402({ session, url, init, chainId: net.chainId, preferRail: "eip3009" }));
     } finally {
       policy.release(req.amount);
     }
@@ -71,4 +75,40 @@ export async function readRequirements(res) {
     }
   } catch {}
   return null;
+}
+
+// The SDK pays the first payable offer. Narrow the seller's 402 challenge to the asset our
+// policy picked, so the payment lands on the capped token and nothing else.
+async function withOnlyAsset(asset, fn) {
+  const orig = globalThis.fetch;
+  const want = String(asset).toLowerCase();
+  globalThis.fetch = async (url, init = {}) => {
+    // The SDK sends both PAYMENT-SIGNATURE (v2) and X-PAYMENT (v1). buy reads X-PAYMENT first and
+    // matches it against its v1 offers ("celo", not "eip155:42220"), which never match; send v2 only.
+    if (init.headers) {
+      const h = new Headers(init.headers);
+      if (h.has("payment-signature") && h.has("x-payment")) {
+        h.delete("x-payment");
+        // v2 PaymentPayload is {x402Version, resource, accepted, payload}; drop the v1 top-level fields.
+        try {
+          const p = JSON.parse(Buffer.from(h.get("payment-signature"), "base64").toString("utf8"));
+          if (p.x402Version === 2) { delete p.scheme; delete p.network; h.set("payment-signature", Buffer.from(JSON.stringify(p)).toString("base64")); }
+        } catch {}
+        init = { ...init, headers: h };
+      }
+    }
+    const res = await orig(url, init);
+    if (res.status !== 402) return res;
+    const h = res.headers.get("payment-required");
+    const headers = new Headers(res.headers);
+    if (h) {
+      try {
+        const c = JSON.parse(Buffer.from(h, "base64").toString("utf8"));
+        c.accepts = (c.accepts || []).filter((o) => String(o.asset).toLowerCase() === want);
+        headers.set("payment-required", Buffer.from(JSON.stringify(c)).toString("base64"));
+      } catch {}
+    }
+    return new Response(await res.text(), { status: 402, headers });
+  };
+  try { return await fn(); } finally { globalThis.fetch = orig; }
 }
