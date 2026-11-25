@@ -12,6 +12,8 @@ import { runScout } from "../src/scout.mjs";
 const { values } = parseArgs({ options: { project: { type: "string" }, repo: { type: "string" }, query: { type: "string" }, free: { type: "boolean" }, out: { type: "string" } } });
 if (!values.project) { console.error("usage: scout --project NAME [--repo owner/name] [--query TERMS] [--free]"); process.exit(2); }
 const net = network();
-const { payer, policy } = values.free ? { payer: null, policy: null } : await buildAgent(net);
-const r = await runScout({ project: values.project, repo: values.repo, query: values.query, payer, policy, network: net, outDir: values.out || "reports", paid: !values.free });
+const log = (m) => console.error(`[scout] ${m}`);
+const { payer, policy } = values.free ? { payer: null, policy: null } : await buildAgent(net, {}, { log });
+if (payer) log(`payer ${payer.kind} ${payer.address} on ${net.name}`);
+const r = await runScout({ project: values.project, repo: values.repo, query: values.query, payer, policy, network: net, outDir: values.out || "reports", paid: !values.free, log });
 console.log(JSON.stringify({ score: r.score, receipts: r.receipts, files: r.files, errors: r.errors }, null, 2));

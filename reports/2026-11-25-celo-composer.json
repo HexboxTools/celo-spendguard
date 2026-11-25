@@ -1,0 +1,80 @@
+{
+  "project": "Celo Composer",
+  "query": "Celo Composer",
+  "repo": "https://github.com/celo-org/celo-composer",
+  "started": "2026-11-25T23:01:48.540Z",
+  "finished": "2026-11-25T23:01:58.327Z",
+  "network": "celo",
+  "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+  "payerKind": "eoa",
+  "score": {
+    "total": 17,
+    "parts": {
+      "github": 17,
+      "hackerNews": 0,
+      "x": 0,
+      "reddit": 0
+    }
+  },
+  "github": {
+    "url": "https://github.com/celo-org/celo-composer",
+    "stars": 189,
+    "forks": 189,
+    "openIssues": 8,
+    "pushedAt": "2026-11-24T13:21:30Z",
+    "createdAt": "2022-02-08T20:44:53Z",
+    "commits30d": 6,
+    "description": "celo-composer is a starter project with all code needed to build, deploy, and upgrade a dapps on Celo."
+  },
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "x": {
+    "ok": true,
+    "returned": 20,
+    "keyTerm": "celo",
+    "count": 0,
+    "recent": 0,
+    "views": 0,
+    "sample": [],
+    "source": "youtube",
+    "xError": "{\"error\":\"provider_error\",\"providerStatus\":400,\"paymentSettled\":false,\"retryable\":false,\"correlationId\":\"b4b4c6912274\"}"
+  },
+  "reddit": {
+    "ok": false,
+    "error": "Failed to create payment payload: Payment creation aborted: daily cap 50000 would be passed (spent 50000, asks 5000)"
+  },
+  "receipts": [
+    {
+      "at": "2026-11-25T23:01:58.245Z",
+      "day": "2026-11-25",
+      "network": "eip155:42220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/youtube/videos/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0xcebA9300f2b948710d2653dD7B07f33A8B32118C",
+      "amount": "5000",
+      "tx": "0xb1a1200e69cd1a9576c9776f35b40341635e2623b01d4b02ada5f6fc256efc69",
+      "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+      "rail": "eoa-eip3009",
+      "source": "youtube.videos.search",
+      "query": "Celo Composer"
+    }
+  ],
+  "budget": {
+    "network": "eip155:42220",
+    "payments": 10,
+    "refusals": 1,
+    "totalAtomic": "50000",
+    "spentTodayAtomic": "50000",
+    "dailyCapAtomic": "50000",
+    "maxPerCallAtomic": "10000"
+  },
+  "errors": [],
+  "notes": [
+    "Hacker News (free) re-counted after the live run with the title-only, whole-word filter; the first count matched unrelated stories. Paid data and settlement txs unchanged."
+  ]
+}

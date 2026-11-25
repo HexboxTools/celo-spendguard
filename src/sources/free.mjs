@@ -1,3 +1,4 @@
+import { mentions } from "./buy.mjs";
 // Free public sources: GitHub REST and the Hacker News Algolia API. No keys, no payment.
 const UA = { "user-agent": "spendguard-scout (+https://github.com/HexboxTools/celo-spendguard)" };
 
@@ -30,8 +31,9 @@ export async function githubStats(repoRef, { fetchImpl = globalThis.fetch, token
 
 export async function hnMentions(query, { fetchImpl = globalThis.fetch, days = 365 } = {}) {
   const since = Math.floor(Date.now() / 1000) - days * 86400;
-  const u = `https://hn.algolia.com/api/v1/search?query=${encodeURIComponent(query)}&tags=story&numericFilters=created_at_i>${since}&hitsPerPage=20`;
+  // Title-only, no typo tolerance, then a whole-word check: "Celo" must not match "Cello" or "Celorga".
+  const u = `https://hn.algolia.com/api/v1/search?query=${encodeURIComponent(query)}&tags=story&restrictSearchableAttributes=title&typoTolerance=false&numericFilters=created_at_i>${since}&hitsPerPage=50`;
   const d = await getJson(u, fetchImpl);
-  const hits = (d.hits || []).map((h) => ({ title: h.title, points: h.points || 0, comments: h.num_comments || 0, url: `https://news.ycombinator.com/item?id=${h.objectID}`, at: h.created_at }));
-  return { stories: d.nbHits || 0, points: hits.reduce((s, h) => s + h.points, 0), top: hits.sort((a, b) => b.points - a.points).slice(0, 3) };
+  const hits = (d.hits || []).filter((h) => mentions(h.title || "", query)).map((h) => ({ title: h.title, points: h.points || 0, comments: h.num_comments || 0, url: `https://news.ycombinator.com/item?id=${h.objectID}`, at: h.created_at }));
+  return { stories: hits.length, points: hits.reduce((s, h) => s + h.points, 0), top: hits.sort((a, b) => b.points - a.points).slice(0, 3) };
 }

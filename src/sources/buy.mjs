@@ -13,6 +13,20 @@ async function post(payer, path, body, meta) {
 
 const n = (v) => (typeof v === "number" ? v : Number(v) || 0);
 
+// Search providers return loose matches (a query for "ERC-8004 agents" can return a trading-card post).
+// A post counts only if its title or text mentions the query's first term, the project keyword.
+const STOP = new Set(["the", "and", "for", "with", "protocol", "payments", "agents", "agent", "network", "app"]);
+export function keyTerm(query) {
+  const w = String(query).replace(/["'()]/g, " ").toLowerCase().split(/\s+/).filter((x) => x.length >= 3 && !STOP.has(x));
+  return w[0] || null;
+}
+export function mentions(text, query) {
+  const k = keyTerm(query);
+  if (!k) return true;
+  const esc = k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(^|[^a-z0-9])${esc}([^a-z0-9]|$)`, "i").test(String(text));
+}
+
 export async function xMentions(payer, query) {
   const r = await post(payer, "/v1/social/x/posts/search", { query: `${query} within_time:30d`, type: "latest" }, { source: "x.posts.search", query });
   if (!r.ok) return r;
@@ -34,16 +48,20 @@ export async function redditMentions(payer, query) {
     score: n(p.score ?? p.ups ?? p.upvotes), comments: n(p.commentCount ?? p.num_comments ?? p.comments),
     sub: p.subreddit?.name || p.subreddit?.prefixedName || (typeof p.subreddit === "string" ? p.subreddit : null),
     url: p.url || (p.permalink ? `https://www.reddit.com${p.permalink}` : null),
+    text: String(p.body || p.selftext || p.postBody || p.content || "").slice(0, 2000),
   }));
-  return { ok: true, receipt: r.receipt, count: posts.length, score: posts.reduce((s, p) => s + p.score, 0), comments: posts.reduce((s, p) => s + p.comments, 0), sample: posts.slice(0, 3) };
+  const rel = posts.filter((p) => mentions(`${p.title} ${p.text}`, query)).map(({ text, ...p }) => p);
+  return { ok: true, receipt: r.receipt, returned: posts.length, keyTerm: keyTerm(query), count: rel.length, score: rel.reduce((s, p) => s + p.score, 0), comments: rel.reduce((s, p) => s + p.comments, 0), sample: rel.slice(0, 3) };
 }
 
 export async function youtubeMentions(payer, query) {
   const r = await post(payer, "/v1/social/youtube/videos/search", { query }, { source: "youtube.videos.search", query });
   if (!r.ok) return r;
   const vids = extractList(r.data).map((v) => ({ title: String(v.title || "").slice(0, 160), views: n(v.number_of_views ?? v.views), author: v.author || null, published: v.published_time || null, url: v.video_id ? `https://www.youtube.com/watch?v=${v.video_id}` : null }));
-  const recent = vids.filter((v) => /(hour|day|week)s? ago/.test(String(v.published || "")));
-  return { ok: true, receipt: r.receipt, count: vids.length, recent: recent.length, views: recent.reduce((s, v) => s + v.views, 0), sample: (recent.length ? recent : vids).slice(0, 3) };
+  const all = vids.length;
+  const relv = vids.filter((v) => mentions(v.title, query));
+  const recent = relv.filter((v) => /(hour|day|week)s? ago/.test(String(v.published || "")));
+  return { ok: true, receipt: r.receipt, returned: all, keyTerm: keyTerm(query), count: relv.length, recent: recent.length, views: recent.reduce((s, v) => s + v.views, 0), sample: (recent.length ? recent : relv).slice(0, 3) };
 }
 
 // The upstream payloads differ by provider; find the first array of objects that looks like posts.

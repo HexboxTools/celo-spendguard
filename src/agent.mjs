@@ -26,12 +26,12 @@ export function defaultPolicy(net, overrides = {}) {
   });
 }
 
-export async function buildAgent(net, overrides = {}) {
+export async function buildAgent(net, overrides = {}, { log } = {}) {
   const policy = defaultPolicy(net, overrides);
   const kind = process.env.SPENDGUARD_PAYER || "eoa";
   if (kind === "altana") {
     const session = loadSession({ sessionFile: process.env.ALTANA_SESSION_FILE, sessionKey: readKey(process.env.ALTANA_SESSION_KEY_FILE) });
     return { policy, payer: createAltanaPayer({ session, policy, networkName: net.name, appCode: attributionCode() || undefined }) };
   }
-  return { policy, payer: createEoaPayer({ privateKey: readKey(process.env.SPENDGUARD_KEY_FILE), policy, rpcUrl: net.rpc }) };
+  return { policy, payer: createEoaPayer({ privateKey: readKey(process.env.SPENDGUARD_KEY_FILE), policy, rpcUrl: net.rpc, log }) };
 }

@@ -1,0 +1,80 @@
+{
+  "project": "Celo",
+  "query": "Celo",
+  "repo": "https://github.com/celo-org/celo-monorepo",
+  "started": "2026-11-25T23:01:26.523Z",
+  "finished": "2026-11-25T23:01:42.560Z",
+  "network": "celo",
+  "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+  "payerKind": "eoa",
+  "score": {
+    "total": 20,
+    "parts": {
+      "github": 20,
+      "hackerNews": 0,
+      "x": 0,
+      "reddit": 0
+    }
+  },
+  "github": {
+    "url": "https://github.com/celo-org/celo-monorepo",
+    "stars": 824,
+    "forks": 482,
+    "openIssues": 19,
+    "pushedAt": "2026-11-25T14:23:45Z",
+    "createdAt": "2019-07-18T19:05:59Z",
+    "commits30d": 6,
+    "description": "Official repository for core projects comprising the Celo platform"
+  },
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "x": {
+    "ok": false,
+    "status": 502,
+    "refused": null,
+    "error": "{\"error\":\"provider_error\",\"providerStatus\":400,\"paymentSettled\":false,\"retryable\":false,\"correlationId\":\"62b946924755\"}"
+  },
+  "reddit": {
+    "ok": true,
+    "returned": 7,
+    "keyTerm": "celo",
+    "count": 0,
+    "score": 0,
+    "comments": 0,
+    "sample": []
+  },
+  "receipts": [
+    {
+      "at": "2026-11-25T23:01:42.546Z",
+      "day": "2026-11-25",
+      "network": "eip155:42220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/reddit/posts/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0xcebA9300f2b948710d2653dD7B07f33A8B32118C",
+      "amount": "5000",
+      "tx": "0x040f370d717db1247a556195f77019f0799d538564bb0fd1a53648673d942d2c",
+      "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+      "rail": "eoa-eip3009",
+      "source": "reddit.posts.search",
+      "query": "Celo"
+    }
+  ],
+  "budget": {
+    "network": "eip155:42220",
+    "payments": 9,
+    "refusals": 0,
+    "totalAtomic": "45000",
+    "spentTodayAtomic": "45000",
+    "dailyCapAtomic": "50000",
+    "maxPerCallAtomic": "10000"
+  },
+  "errors": [],
+  "notes": [
+    "Hacker News (free) re-counted after the live run with the title-only, whole-word filter; the first count matched unrelated stories. Paid data and settlement txs unchanged."
+  ]
+}
