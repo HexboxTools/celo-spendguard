@@ -1,0 +1,6 @@
+node_modules/
+*.key
+*.pem
+.env
+secrets/
+*.tmp.mjs

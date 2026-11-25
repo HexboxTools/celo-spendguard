@@ -1,0 +1,49 @@
+{
+ "capability": "reddit.posts.search",
+ "transaction": "0x6fa02db2cf353d8559a4d5fcb75094b675e978462136b9e3a4cc1151011ac1fa",
+ "payment": {
+  "token": "USDC",
+  "asset": "0x01C5C0122039549AD1493B8220cABEdD739BC44E",
+  "atomic": "5000",
+  "usd": "0.005"
+ },
+ "provider": "tikhub",
+ "upstreamRunId": "01M89QS20X7N2D2X5V1PBHDTEM",
+ "resultCount": 1,
+ "output": {
+  "children": [
+   {
+    "post": {
+     "postTitle": "I feel anxious about my girlfriend, and it's a bummer",
+     "score": 1,
+     "commentCount": 1,
+     "permalink": "/r/Desahogo/comments/1y5arv5/siento_ansiedad_por_m\u00ed_novia_y_es_una_vrga/",
+     "url": "https://www.reddit.com/r/Desahogo/comments/1y5arv5/siento_ansiedad_por_m%C3%AD_novia_y_es_una_vrga/",
+     "createdAt": "2026-11-25T15:52:07.737000+0000",
+     "subreddit": {
+      "name": "example"
+     }
+    }
+   },
+   {
+    "post": {
+     "postTitle": "sweep 2026-11-25 15:16 part 2/2",
+     "score": 1,
+     "commentCount": 0,
+     "permalink": "/r/lineup_sweep/comments/1y59v51/sweep_20261125_1516_part_22/",
+     "url": "https://www.reddit.com/r/lineup_sweep/comments/1y59v51/sweep_20261125_1516_part_22/",
+     "createdAt": "2026-11-25T15:16:10.852000+0000",
+     "subreddit": {
+      "name": "example"
+     }
+    }
+   }
+  ],
+  "pageInfo": {
+   "startCursor": "",
+   "endCursor": "eyJjYW5kaWRhdGVzX3JldHVybmVkIjoie1wic2VjdGlvbl8xX3BpcGVsaW5lXzBfZ2xvYmFsX21vZGlmaWVyc1wiOlwiMVwiLFwic2VjdGlvbl8xX3BpcGVsaW5lXzFfbG9jYWxfbW9kaWZpZXJzXCI6XCIxXCIsXCJzZWN0aW9uXzJfcGlwZWxpbmVfOF9keW5hbWljXzFfcG9zdF9zZWFyY2hcIjpcIjdcIn0iLCJleHBlcmllbmNlX3NlbGVjdGlvbiI6InBvc3RzX3YyIiwiZXhwZXJpZW5jZV92ZXJzaW9uIjoiZGVmYXVsdCIsInNlY3Rpb25fMl9waXBlbGluZV84X2R5bmFtaWNfMV9wb3N0X3NlYXJjaCI6IjcifQ==",
+   "hasNextPage": true,
+   "hasPreviousPage": false
+  }
+ }
+}

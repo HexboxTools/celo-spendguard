@@ -1,0 +1,26 @@
+{
+  "name": "celo-spendguard",
+  "version": "0.1.0",
+  "description": "A research agent on Celo that pays for its own data over x402, inside a spend cap its owner sets.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "spendguard": "bin/scout.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "scout": "node bin/scout.mjs",
+    "status": "node scripts/status.mjs"
+  },
+  "dependencies": {
+    "@altananetwork/sdk": "^1.2.0",
+    "@celo/attribution-tags": "^0.5.0",
+    "@x402/core": "^2.32.0",
+    "@x402/evm": "^2.32.0",
+    "@x402/fetch": "^2.32.0",
+    "viem": "^2.58.6"
+  }
+}

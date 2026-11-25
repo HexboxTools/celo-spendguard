@@ -1,0 +1,38 @@
+{
+ "capability": "youtube.videos.search",
+ "transaction": "0xf96b6a679fc42b76c034c15a1946593a9ff4bfe96a7da40d40e5d96e40250db1",
+ "payment": {
+  "token": "USDC",
+  "asset": "0x01C5C0122039549AD1493B8220cABEdD739BC44E",
+  "atomic": "5000",
+  "usd": "0.005"
+ },
+ "provider": "tikhub",
+ "upstreamRunId": "01M89QS9HW7TGKBNRSVJ4B2PPA",
+ "resultCount": 1,
+ "output": {
+  "videos": [
+   {
+    "video_id": "m_YonJkICQo",
+    "title": "CELO Coin Going Upside \ud83d\ude0d | Celo Coin New Big Update | CELO PRICE PREDICTION 2026 | Celo Crypto",
+    "author": "CAPTITAN",
+    "number_of_views": 164,
+    "published_time": "3 weeks ago"
+   },
+   {
+    "video_id": "QRCH_wnzH-E",
+    "title": "PACT Finance x CELO: African Loans on MiniPay - Opera Limited & Kunlun Tech Ties!! #PACT #CELO #APT",
+    "author": "The Crypto Crossroads Show",
+    "number_of_views": 390,
+    "published_time": "3 weeks ago"
+   },
+   {
+    "video_id": "ltW7dAhWtKs",
+    "title": "Celo & MiniPay Want 1 Billion Users by 2030 | Tether Gold Changes Everything #CELO #PACT",
+    "author": "The Crypto Crossroads Show",
+    "number_of_views": 373,
+    "published_time": "4 weeks ago"
+   }
+  ]
+ }
+}

@@ -1,0 +1,160 @@
+{
+  "project": "x402",
+  "query": "x402 payments",
+  "repo": "https://github.com/x402-foundation/x402",
+  "started": "2026-11-25T16:16:31.544Z",
+  "finished": "2026-11-25T16:16:47.916Z",
+  "network": "celo-sepolia",
+  "payer": "0xB74450f2F01910f772564beb5C878fbd03aD18Fd",
+  "payerKind": "eoa",
+  "score": {
+    "total": 79,
+    "parts": {
+      "github": 30,
+      "hackerNews": 11,
+      "x": 29,
+      "reddit": 9
+    }
+  },
+  "github": {
+    "url": "https://github.com/x402-foundation/x402",
+    "stars": 6826,
+    "forks": 2323,
+    "openIssues": 897,
+    "pushedAt": "2026-11-25T12:26:43Z",
+    "createdAt": "2025-02-21T01:17:52Z",
+    "commits30d": 100,
+    "description": "A payments protocol for the internet. Built on HTTP."
+  },
+  "hackerNews": {
+    "stories": 77,
+    "points": 48,
+    "top": [
+      {
+        "title": "Show HN: AgentBudget – Real-time dollar budgets for AI agents",
+        "points": 7,
+        "comments": 8,
+        "url": "https://news.ycombinator.com/item?id=47133305",
+        "at": "2026-02-24T05:46:17Z"
+      },
+      {
+        "title": "I analyzed all 14,865 listings in Coinbase's x402 agent-payment registry",
+        "points": 4,
+        "comments": 0,
+        "url": "https://news.ycombinator.com/item?id=49084398",
+        "at": "2026-07-28T14:25:07Z"
+      },
+      {
+        "title": "Show HN: Tilde Pay – Give your AI agent a bank account to pay for things",
+        "points": 4,
+        "comments": 6,
+        "url": "https://news.ycombinator.com/item?id=49070028",
+        "at": "2026-07-27T14:13:55Z"
+      }
+    ]
+  },
+  "x": {
+    "ok": true,
+    "count": 20,
+    "recent": 18,
+    "views": 47480,
+    "sample": [
+      {
+        "title": "x402 Explained in 5 Minutes: How AI Agents Pay",
+        "views": 113,
+        "author": "TruePointAgentTools",
+        "published": "3 weeks ago",
+        "url": "https://www.youtube.com/watch?v=53XLYME3Wxc"
+      },
+      {
+        "title": "Your Agent Just Paid for Nothing: 6 Attacks on x402 Payments - Ishween Kaur, SoFi",
+        "views": 6757,
+        "author": "AI Engineer",
+        "published": "3 weeks ago",
+        "url": "https://www.youtube.com/watch?v=YU1uD_YkpjU"
+      },
+      {
+        "title": "x402 Explained: How AI Agents Can Now Pay Websites (AWS Just Turned It On)",
+        "views": 0,
+        "author": "Agent Tested",
+        "published": "2 hours ago",
+        "url": "https://www.youtube.com/watch?v=WztYwpW9pLo"
+      }
+    ],
+    "source": "youtube",
+    "xError": "{\"error\":\"provider_error\",\"providerStatus\":400,\"paymentSettled\":false,\"retryable\":false,\"correlationId\":\"54b4fba839a3\"}"
+  },
+  "reddit": {
+    "ok": true,
+    "count": 7,
+    "score": 9,
+    "comments": 5,
+    "sample": [
+      {
+        "title": "AI agents pay in USDC, not agent tokens. So what are agent token holders betting on?",
+        "score": 1,
+        "comments": 0,
+        "sub": "CryptoInvesting",
+        "url": "https://www.reddit.com/r/CryptoInvesting/comments/1y58wdh/ai_agents_pay_in_usdc_not_agent_tokens_so_what/"
+      },
+      {
+        "title": "AI agent tokens are worth around $3B, but real agent spending might be $5K to $11K a month",
+        "score": 1,
+        "comments": 0,
+        "sub": "Crypto_General",
+        "url": "https://www.reddit.com/r/Crypto_General/comments/1y58ves/ai_agent_tokens_are_worth_around_3b_but_real/"
+      },
+      {
+        "title": "x402 payments explained: 196M transactions, $42M total, and what it means for agent tokens",
+        "score": 1,
+        "comments": 0,
+        "sub": "CryptoTechnology",
+        "url": "https://www.reddit.com/r/CryptoTechnology/comments/1y58u6k/x402_payments_explained_196m_transactions_42m/"
+      }
+    ]
+  },
+  "receipts": [
+    {
+      "at": "2026-11-25T16:16:42.505Z",
+      "day": "2026-11-25",
+      "network": "eip155:11142220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/youtube/videos/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0x01C5C0122039549AD1493B8220cABEdD739BC44E",
+      "amount": "5000",
+      "tx": "0x27baec1085498fd49214bec9dc98afc37a040fd290e45bd5730f778123441253",
+      "payer": "0xB74450f2F01910f772564beb5C878fbd03aD18Fd",
+      "rail": "eoa-eip3009",
+      "source": "youtube.videos.search",
+      "query": "x402 payments"
+    },
+    {
+      "at": "2026-11-25T16:16:47.910Z",
+      "day": "2026-11-25",
+      "network": "eip155:11142220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/reddit/posts/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0x01C5C0122039549AD1493B8220cABEdD739BC44E",
+      "amount": "5000",
+      "tx": "0xff5083521ec2d96859cc69c1857ef42560659a7db810532938e6dbd9951c3d9e",
+      "payer": "0xB74450f2F01910f772564beb5C878fbd03aD18Fd",
+      "rail": "eoa-eip3009",
+      "source": "reddit.posts.search",
+      "query": "x402 payments"
+    }
+  ],
+  "budget": {
+    "network": "eip155:11142220",
+    "payments": 3,
+    "refusals": 0,
+    "totalAtomic": "15000",
+    "spentTodayAtomic": "15000",
+    "dailyCapAtomic": "50000",
+    "maxPerCallAtomic": "10000"
+  },
+  "errors": []
+}
