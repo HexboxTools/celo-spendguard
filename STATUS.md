@@ -6,7 +6,7 @@ Live page: https://hexboxtools.github.io/celo-spendguard/ (generated from this r
 |---|---|
 | Agent wallet (Celo mainnet) | `0xC17733165C47f80E56b1c6eD61E8988296CA8f82` |
 | ERC-8004 identity | **agentId 10134**, [tx 0xe47d71bb…](https://celoscan.io/tx/0xe47d71bb03cc18e736e43b0a3a5d9a31b750db81ec299da6c9205f631feb36e4) |
-| Attribution tag (ERC-8021) | `celo_73a54a0daad9` on every owner/agent tx except the two Uniswap float swaps |
+| Attribution tag (ERC-8021) | `celo_73a54a0daad9` suffix on the ERC-8004 registration, the two USDC session-key txs and the owner top-up (not on the 7702 delegation, the relayed Altana grant or the Uniswap float swaps) |
 | Altana session (mainnet) | live: $0.05/day caps on USD₮ and USDC, USD₮-only call allowlist, expires Dec 9, 2026 |
 | Mainnet paid x402 calls | **10 settled ($0.050)** across 6 briefs, 1 refused at the daily cap, 13 unsettled attempts at $0 (6 Altana ERC-1271 rejections, 7 provider errors) |
 | Payment rail | capped spending key `0xB1809549…95ad` (buy's facilitator rejects ERC-1271 signatures; see below) |
@@ -14,7 +14,7 @@ Live page: https://hexboxtools.github.io/celo-spendguard/ (generated from this r
 
 ## Mainnet run (Nov 25, 2026)
 
-Everything below is on Celo mainnet. Each transaction the owner or agent sent carries the Loops House attribution tag `celo_73a54a0daad9` (ERC-8021), except the two Uniswap swaps that bought the stablecoin float.
+Everything below is on Celo mainnet. The ERC-8004 registration, both USDC session-key calls and the owner top-up carry the Loops House attribution tag `celo_73a54a0daad9` as an ERC-8021 calldata suffix (checked onchain). Not tagged: the EIP-7702 delegation (empty calldata), the Altana grant sent through Altana's relay (no suffix found in the outer calldata), and the two Uniswap swaps that bought the stablecoin float.
 
 | Step | Tx |
 |---|---|

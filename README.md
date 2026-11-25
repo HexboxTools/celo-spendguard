@@ -90,7 +90,7 @@ MIT
 
 ## Mainnet run (Nov 25, 2026)
 
-Everything below is on Celo mainnet. Each transaction the owner or agent sent carries the Loops House attribution tag `celo_73a54a0daad9` (ERC-8021), except the two Uniswap swaps that bought the stablecoin float.
+Everything below is on Celo mainnet. The ERC-8004 registration, both USDC session-key calls and the owner top-up carry the Loops House attribution tag `celo_73a54a0daad9` as an ERC-8021 calldata suffix (checked onchain). Not tagged: the EIP-7702 delegation (empty calldata), the Altana grant sent through Altana's relay (no suffix found in the outer calldata), and the two Uniswap swaps that bought the stablecoin float.
 
 | Step | Tx |
 |---|---|

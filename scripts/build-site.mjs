@@ -21,6 +21,7 @@ const et = (iso) => new Date(iso).toLocaleString("en-US", { timeZone: "America/T
 const briefOf = (q) => ({ "x402 payments": "x402", "Mento stablecoin": "mento", "Self protocol zk passport": "self", "ERC-8004 trustless agents": "erc-8004", Celo: "celo", "Celo Composer": "celo-composer" }[q]);
 const expiry = new Date(session.expiry * 1000);
 
+const TAGGED = new Set(["0xe47d71bb03cc18e736e43b0a3a5d9a31b750db81ec299da6c9205f631feb36e4", "0x9ecaf8e783f903f45f52de08491b8ed9ffd6a257e20fbb0b8a4ec282c9e9957d", "0x9e456abd1e14a8ca76f695cdf5ba4f07beb817a2c715445f9bbff94037b38d8f", "0xa6828f284c18c6f8a679e0396e8f915b3cbaaf469d2e7c3b222c09d16e240824"]);
 const setup = [
   ["ERC-8004 identity: agentId " + reg.agentId + " in Celo's Identity Registry", reg.tx],
   ["EIP-7702 delegation of the agent wallet to the Altana smart account", "0x6eb06f8cac72baf41947c3a483f9b77c2f638bc1856f21bf5c117b01f01fea6f"],
@@ -36,8 +37,31 @@ const briefs = [
   ["x402", "x402", ""], ["mento", "Mento", ""], ["self", "Self", ""], ["erc-8004", "ERC-8004", ""],
 ];
 
-const payRows = paid.map((e) => `<tr><td>${et(e.at)}</td><td><code>${esc(e.source)}</code></td><td>${esc(e.query)}</td><td>${usd(e.amount)} ${tok[e.asset.toLowerCase()] || ""}</td><td><a href="${SCAN}/tx/${e.tx}">${short(e.tx)}</a></td><td><a href="${REPO}/blob/main/reports/2026-11-25-${briefOf(e.query)}.md">brief</a></td></tr>`).join("\n");
-const refRows = refused.map((e) => `<tr class="refused"><td>${et(e.at)}</td><td colspan="3"><b>Refused before signing:</b> ${esc(e.reason)}</td><td>nothing sent</td><td><a href="${REPO}/blob/main/reports/2026-11-25-celo-composer.md">brief</a></td></tr>`).join("\n");
+const payRows = paid.map((e) => `<tr><td>${et(e.at)}</td><td><code>${esc(e.source)}</code></td><td>${esc(e.query)}</td><td>${usd(e.amount)} ${tok[e.asset.toLowerCase()] || ""}</td><td><a href="${SCAN}/tx/${e.tx}">${short(e.tx)}</a></td><td><a href="briefs/2026-11-25-${briefOf(e.query)}.html">brief</a></td></tr>`).join("\n");
+const refRows = refused.map((e) => `<tr class="refused"><td>${et(e.at)}</td><td colspan="3"><b>Refused before signing:</b> ${esc(e.reason)}</td><td>nothing sent</td><td><a href="briefs/2026-11-25-celo-composer.html">brief</a></td></tr>`).join("\n");
+
+// Minimal Markdown for the briefs: headings, bullets, tables, quotes, links, bold, italics, code.
+const inline = (t) => esc(t).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/_([^_]+)_$/g, "<i>$1</i>").replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, a, h) => `<a href="${h.replace(/^(2026-[\w-]+)\.md$/, "$1.html")}">${a}</a>`);
+function md(src) {
+  const out = []; let list = false, table = false;
+  for (const line of src.split("\n")) {
+    if (!line.startsWith("- ") && list) { out.push("</ul>"); list = false; }
+    if (!line.startsWith("|") && table) { out.push("</table>"); table = false; }
+    if (line.startsWith("# ")) out.push(`<h1>${inline(line.slice(2))}</h1>`);
+    else if (line.startsWith("## ")) out.push(`<h2>${inline(line.slice(3))}</h2>`);
+    else if (line.startsWith("- ")) { if (!list) { out.push("<ul>"); list = true; } out.push(`<li>${inline(line.slice(2))}</li>`); }
+    else if (line.startsWith("> ")) out.push(`<p class="note">${inline(line.slice(2))}</p>`);
+    else if (line.startsWith("|")) { if (/^\|[-| ]+\|$/.test(line)) continue; const cells = line.slice(1, -1).split("|").map((c) => c.trim()); if (!table) { out.push("<table>"); table = true; out.push(`<tr>${cells.map((c) => `<th>${inline(c)}</th>`).join("")}</tr>`); } else out.push(`<tr>${cells.map((c) => `<td>${inline(c)}</td>`).join("")}</tr>`); }
+    else if (line.trim()) out.push(`<p>${inline(line)}</p>`);
+  }
+  if (list) out.push("</ul>"); if (table) out.push("</table>");
+  return out.join("\n");
+}
+fs.mkdirSync("docs/briefs", { recursive: true });
+for (const [slug, name] of briefs) {
+  const src = fs.readFileSync(`reports/2026-11-25-${slug}.md`, "utf8");
+  fs.writeFileSync(`docs/briefs/2026-11-25-${slug}.html`, `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Traction brief: ${esc(name)} · Spendguard Scout</title><link rel="icon" href="../logo.png"><style>body{margin:0;font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#16161a;background:#fcfbf6}.bar{background:#0f3d2e;color:#fff;padding:14px 0}.bar a{color:#fcff52;text-decoration:none;font-weight:600}.w{max-width:860px;margin:0 auto;padding:0 22px}h1{margin:28px 0 10px}a{color:#0b6b48}code{font:13px ui-monospace,Menlo,monospace;background:#f1efe6;padding:1px 5px;border-radius:4px}table{border-collapse:collapse;width:100%;background:#fff;border:1px solid #e6e3d8}th,td{text-align:left;padding:8px 12px;border-bottom:1px solid #e6e3d8}th{background:#f4f2ea}.note{border-left:4px solid #fcff52;background:#fffde3;padding:10px 14px}footer{color:#5b5b66;font-size:14px;margin:30px 0}</style></head><body><div class="bar"><div class="w"><a href="../">← Spendguard Scout</a></div></div><div class="w">${md(src)}<footer>Source: <a href="${REPO}/blob/main/reports/2026-11-25-${slug}.md">reports/2026-11-25-${slug}.md</a> · data: <a href="${REPO}/blob/main/reports/2026-11-25-${slug}.json">JSON</a></footer></div></body></html>\n`);
+}
 
 const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -134,10 +158,10 @@ ul{padding-left:20px}li{margin:4px 0}
 
 <section id="proof"><h2>Onchain proof</h2>
 <h3>Identity and wallet setup</h3>
-<table><tr><th>Step</th><th>Transaction</th></tr>
-${setup.map(([a, h]) => `<tr><td>${a}</td><td><a href="${SCAN}/tx/${h}">${short(h)}</a></td></tr>`).join("\n")}
+<table><tr><th>Step</th><th>Transaction</th><th>ERC-8021 tag</th></tr>
+${setup.map(([a, h]) => `<tr><td>${a}</td><td><a href="${SCAN}/tx/${h}">${short(h)}</a></td><td>${TAGGED.has(h) ? "✓" : "–"}</td></tr>`).join("\n")}
 </table>
-<p style="font-size:14px;color:var(--mut)">Each of these carries the Loops House ERC-8021 attribution tag <code>celo_73a54a0daad9</code>. Registration file: <a href="${REPO}/blob/main/agent.json">agent.json</a>.</p>
+<p style="font-size:14px;color:var(--mut)">✓ = calldata ends with the Loops House ERC-8021 tag <code>celo_73a54a0daad9</code> (checked onchain). The 7702 delegation has empty calldata, and the Altana grant went through Altana's relay without a suffix on the outer call. x402 payments can't carry tags; they are matched by payer address and the ledger. Registration file: <a href="${REPO}/blob/main/agent.json">agent.json</a>.</p>
 <h3>Every paid call (from <a href="${REPO}/blob/main/ledger/celo.jsonl">ledger/celo.jsonl</a>)</h3>
 <table><tr><th>When</th><th>Source</th><th>Query</th><th>Paid</th><th>Settlement</th><th></th></tr>
 ${payRows}
@@ -160,7 +184,7 @@ ${refRows}
 
 <section id="briefs"><h2>Briefs</h2>
 <table><tr><th>Brief</th><th>Notes</th></tr>
-${briefs.map(([s, n, d]) => `<tr><td><a href="${REPO}/blob/main/reports/2026-11-25-${s}.md">${n}</a></td><td>${d || "first mainnet batch (before the relevance filter)"}</td></tr>`).join("\n")}
+${briefs.map(([s, n, d]) => `<tr><td><a href="briefs/2026-11-25-${s}.html">${n}</a> · <a href="${REPO}/blob/main/reports/2026-11-25-${s}.md">md</a></td><td>${d || "first mainnet batch (before the relevance filter)"}</td></tr>`).join("\n")}
 </table>
 <p><b>Want a brief?</b> <a href="${REPO}/issues/new?title=Brief%20request:%20&body=Project%20name:%0ARepo%20(owner/name):%0ASearch%20terms:">Open an issue</a> with your project name and repo. Scout runs it within its daily cap and commits the brief with its data bill.</p>
 </section>
