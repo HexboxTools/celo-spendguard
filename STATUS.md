@@ -8,7 +8,7 @@ Live page: https://hexboxtools.github.io/celo-spendguard/ (generated from this r
 | ERC-8004 identity | **agentId 10134**, [tx 0xe47d71bb…](https://celoscan.io/tx/0xe47d71bb03cc18e736e43b0a3a5d9a31b750db81ec299da6c9205f631feb36e4) |
 | Attribution tag (ERC-8021) | `celo_73a54a0daad9` on every owner/agent tx except the two Uniswap float swaps |
 | Altana session (mainnet) | live: $0.05/day caps on USD₮ and USDC, USD₮-only call allowlist, expires Dec 9, 2026 |
-| Mainnet paid x402 calls | **10 settled ($0.050)** across 6 briefs, 1 refused at the daily cap, 5 upstream failures (unsettled, $0) |
+| Mainnet paid x402 calls | **10 settled ($0.050)** across 6 briefs, 1 refused at the daily cap, 13 unsettled attempts at $0 (6 Altana ERC-1271 rejections, 7 provider errors) |
 | Payment rail | capped spending key `0xB1809549…95ad` (buy's facilitator rejects ERC-1271 signatures; see below) |
 | Tests | 14 passing (`npm test`) |
 

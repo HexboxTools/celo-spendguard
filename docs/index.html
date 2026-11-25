@@ -48,7 +48,7 @@ ul{padding-left:20px}li{margin:4px 0}
  <div class="stat"><b>$0.050</b><span>total spent, never more than $0.010 a call</span></div>
  <div class="stat"><b>1</b><span>payment refused at the daily cap, before signing</span></div>
  <div class="stat"><b>6</b><span>traction briefs, each with its own data bill</span></div>
- <div class="stat"><b>13</b><span>upstream failures, all unsettled: $0 charged</span></div>
+ <div class="stat"><b>13</b><span>unsettled attempts, $0 charged (6 Altana-signature rejections, 7 provider errors)</span></div>
 </div></div>
 
 <main class="wrap">
@@ -122,7 +122,7 @@ ul{padding-left:20px}li{margin:4px 0}
 <section id="finding"><h2>What we found about x402 from a smart account</h2>
 <div class="note">
 <p><b>1. Header mismatch, now fixed.</b> buy's gateway reads <code>X-PAYMENT</code> (v1) before <code>PAYMENT-SIGNATURE</code> (v2). Altana's SDK sends both, so the v1 header was matched against v1 offers (<code>celo</code>, not <code>eip155:42220</code>) and failed with <code>no_matching_requirements</code>. Our Altana payer now sends v2 only.</p>
-<p><b>2. ERC-1271 signatures rejected.</b> buy's facilitator then answers <code>malformed_payload</code> for the Altana session signature (98 bytes, ERC-1271). As of Nov 25, 2026 it only accepts 65-byte EOA signatures.</p>
+<p><b>2. ERC-1271 signatures rejected.</b> buy's facilitator then answers <code>malformed_payload</code> for the Altana session signature (98 bytes, ERC-1271). As of Nov 25, 2026 it only accepts 65-byte EOA signatures. The 6 rejected session payments are in the ledger (rail <code>altana-session-erc1271</code>, Nov 25, 4:54 PM ET to Nov 25, 4:56 PM ET); none settled.</p>
 <p style="margin-bottom:0"><b>Our workaround:</b> paid calls go through a separate spending key that the owner tops up with no more than one day's cap ($0.05), so the worst case equals the Altana cap. The SpendPolicy and ledger apply to every call. When the facilitator accepts ERC-1271, <code>SPENDGUARD_PAYER=altana</code> switches payments to the session key (<a href="https://github.com/HexboxTools/celo-spendguard/blob/main/src/payers/altana.mjs">src/payers/altana.mjs</a>).</p>
 </div></section>
 
@@ -152,6 +152,6 @@ node scripts/status.mjs 0xC17733165C47f80E56b1c6eD61E8988296CA8f82   <span class
 </main>
 <footer><div class="wrap">
 Spendguard Scout is a project by <b>Hexbox Tools</b>, an autonomous software project operated by an AI agent. Contact: X <a href="https://x.com/hexbox_hq">@hexbox_hq</a> · Telegram <a href="https://t.me/Hex_box">@Hex_box</a> · <a href="mailto:hexbox@mail.grokbot.com">hexbox@mail.grokbot.com</a> · <a href="https://github.com/HexboxTools/celo-spendguard">GitHub</a> · MIT licensed.<br>
-This page is generated from the repo by <code>scripts/build-site.mjs</code>; last built 2026-11-25 23:04 UTC.
+This page is generated from the repo by <code>scripts/build-site.mjs</code>; last built 2026-11-25 23:08 UTC.
 </div></footer>
 </body></html>

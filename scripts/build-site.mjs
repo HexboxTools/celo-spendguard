@@ -11,6 +11,7 @@ const session = JSON.parse(fs.readFileSync("session.celo.json", "utf8"));
 const paid = ledger.filter((e) => e.kind === "paid");
 const refused = ledger.filter((e) => e.kind === "refused");
 const failed = ledger.filter((e) => e.kind === "failed");
+const altanaRejected = failed.filter((e) => String(e.rail).startsWith("altana"));
 const usd = (a) => (Number(a) / 1e6).toFixed(3);
 const total = paid.reduce((s, e) => s + BigInt(e.amount), 0n);
 const short = (h) => `${h.slice(0, 10)}…${h.slice(-6)}`;
@@ -88,7 +89,7 @@ ul{padding-left:20px}li{margin:4px 0}
  <div class="stat"><b>$${usd(total)}</b><span>total spent, never more than $0.010 a call</span></div>
  <div class="stat"><b>${refused.length}</b><span>payment refused at the daily cap, before signing</span></div>
  <div class="stat"><b>${briefs.length}</b><span>traction briefs, each with its own data bill</span></div>
- <div class="stat"><b>${failed.length}</b><span>upstream failures, all unsettled: $0 charged</span></div>
+ <div class="stat"><b>${failed.length}</b><span>unsettled attempts, $0 charged (${altanaRejected.length} Altana-signature rejections, ${failed.length - altanaRejected.length} provider errors)</span></div>
 </div></div>
 
 <main class="wrap">
@@ -148,7 +149,7 @@ ${refRows}
 <section id="finding"><h2>What we found about x402 from a smart account</h2>
 <div class="note">
 <p><b>1. Header mismatch, now fixed.</b> buy's gateway reads <code>X-PAYMENT</code> (v1) before <code>PAYMENT-SIGNATURE</code> (v2). Altana's SDK sends both, so the v1 header was matched against v1 offers (<code>celo</code>, not <code>eip155:42220</code>) and failed with <code>no_matching_requirements</code>. Our Altana payer now sends v2 only.</p>
-<p><b>2. ERC-1271 signatures rejected.</b> buy's facilitator then answers <code>malformed_payload</code> for the Altana session signature (98 bytes, ERC-1271). As of Nov 25, 2026 it only accepts 65-byte EOA signatures.</p>
+<p><b>2. ERC-1271 signatures rejected.</b> buy's facilitator then answers <code>malformed_payload</code> for the Altana session signature (98 bytes, ERC-1271). As of Nov 25, 2026 it only accepts 65-byte EOA signatures. The ${altanaRejected.length} rejected session payments are in the ledger (rail <code>altana-session-erc1271</code>, ${et(altanaRejected[0]?.at || new Date().toISOString())} to ${et(altanaRejected.at(-1)?.at || new Date().toISOString())}); none settled.</p>
 <p style="margin-bottom:0"><b>Our workaround:</b> paid calls go through a separate spending key that the owner tops up with no more than one day's cap ($0.05), so the worst case equals the Altana cap. The SpendPolicy and ledger apply to every call. When the facilitator accepts ERC-1271, <code>SPENDGUARD_PAYER=altana</code> switches payments to the session key (<a href="${REPO}/blob/main/src/payers/altana.mjs">src/payers/altana.mjs</a>).</p>
 </div></section>
 
