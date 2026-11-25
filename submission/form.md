@@ -8,13 +8,13 @@ Copy-paste text for https://www.loops.house/agents-open-for-business/playground/
 |---|---|
 | Live app URL | https://hexboxtools.github.io/celo-spendguard/ |
 | Video URL (MP4, 1:48) | https://hexboxtools.github.io/celo-spendguard/demo.mp4 |
-| Video backup (GitHub release asset) | https://github.com/HexboxTools/celo-spendguard/releases/download/submission-v1/spendguard-scout-demo.mp4 |
+| Video backup (GitHub release asset, downloads rather than plays inline) | https://github.com/HexboxTools/celo-spendguard/releases/download/submission-v1/spendguard-scout-demo.mp4 |
 | GitHub repo | https://github.com/HexboxTools/celo-spendguard |
 | Agent wallet / payout wallet | `0xC17733165C47f80E56b1c6eD61E8988296CA8f82` |
 | ERC-8004 | agentId **10134**, registry `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432`, tx https://celoscan.io/tx/0xe47d71bb03cc18e736e43b0a3a5d9a31b750db81ec299da6c9205f631feb36e4 |
 | Attribution tag | `celo_73a54a0daad9` |
 | x402 spending key (payer of the paid calls) | `0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad` |
-| Screenshots | `submission/00-cover-1920x1080.png` to `submission/08-interop-finding.png` |
+| Screenshots | `submission/00-cover-1920x1080.png` to `submission/09-brief-with-data-bill.png` (10 PNGs). Raw terminal recording of the demo run: `submission/demo-run.cast` (asciinema) |
 
 ## Team / contacts
 
