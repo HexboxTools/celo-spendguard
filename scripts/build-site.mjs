@@ -115,7 +115,7 @@ ul{padding-left:20px}li{margin:4px 0}
   <a class="badge" href="${SCAN}/address/${reg.owner}">Celo mainnet · ${reg.owner.slice(0, 8)}…${reg.owner.slice(-4)}</a>
   <span class="badge">Altana smart agentic wallet</span><span class="badge">x402 · USDC / USD₮</span><span class="badge">ERC-8021 tag celo_73a54a0daad9</span>
  </div>
- <div class="cta"><a class="btn" href="#proof">See the onchain proof</a><a class="btn o" href="#demo">Watch the demo</a><a class="btn o" href="${REPO}">Source on GitHub</a></div>
+ <div class="cta"><a class="btn" href="#try">Try it now</a><a class="btn o" href="#proof">See the onchain proof</a><a class="btn o" href="#demo">Watch the demo</a><a class="btn o" href="${REPO}">Source on GitHub</a></div>
 </div></header>
 
 <div class="wrap"><div class="stats">
@@ -128,6 +128,27 @@ ul{padding-left:20px}li{margin:4px 0}
 </div></div>
 
 <main class="wrap">
+<section id="try"><h2>Try it now: ask Scout for a brief</h2>
+<p>Scout is open for business. Anyone, a person or an agent, can ask for a traction brief on a GitHub project. Every outside request is logged publicly with the handle you give, and every paid one with its Celo settlement tx.</p>
+<div class="flow"><span class="g"># free: GitHub + Hacker News, no wallet (6 an hour per caller)</span>
+curl "https://spendguard-scout.liveapps.dev/v1/brief?repo=<span class="k">owner/name</span>&amp;by=<span class="k">@yourhandle</span>"
+
+<span class="g"># full brief over x402 on Celo, $0.02 in USDC, USD₮ or USA₮: adds X/YouTube + Reddit,</span>
+<span class="g"># which the agent buys itself inside its SpendPolicy cap, with a data bill of settlement txs</span>
+npx @celo/buy curl "https://spendguard-scout.liveapps.dev/v1/brief/full?repo=<span class="k">owner/name</span>&amp;by=<span class="k">@yourhandle</span>"
+
+<span class="g"># MCP (streamable HTTP), tool traction_brief</span>
+claude mcp add --transport http spendguard-scout https://spendguard-scout.liveapps.dev/mcp</div>
+<p style="font-size:14px;color:var(--mut)">Docs for agents: <a href="https://spendguard-scout.liveapps.dev/llms.txt">llms.txt</a> · <a href="https://spendguard-scout.liveapps.dev/openapi.json">openapi.json</a>. Listed on <a href="https://agent402.tools">agent402.tools</a> and <a href="https://402index.io">402index.io</a>. Full-brief payments go to the agent's spending key <code>0xB1809549…95ad</code>, so a caller's payment funds the data bought for their brief; the SpendPolicy daily cap still applies. Settlement txs are sent by the agent wallet and carry the ERC-8021 tag.</p>
+<h3>Outside requests so far</h3>
+<div id="reqs"><p style="color:var(--mut)">Loading the live log from <a href="https://spendguard-scout.liveapps.dev/requests">https://spendguard-scout.liveapps.dev/requests</a>…</p></div>
+<script>
+fetch("https://spendguard-scout.liveapps.dev/requests").then(r=>r.json()).then(d=>{const el=document.getElementById("reqs");const e=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+if(!d.requests.length){el.innerHTML='<p style="color:var(--mut)">None yet. Be the first: run the curl above with your handle.</p>';return}
+el.innerHTML='<table><tr><th>When (UTC)</th><th>Who</th><th>Project</th><th>Tier</th><th>Payment</th></tr>'+d.requests.slice().reverse().slice(0,50).map(x=>'<tr><td>'+e(x.at.slice(0,16).replace("T"," "))+'</td><td>'+e(x.by||"(no handle)")+'</td><td>'+(x.repo?'<a href="https://github.com/'+e(x.repo)+'">'+e(x.repo)+'</a>':e(x.project))+'</td><td>'+e(x.tier)+' · '+e(x.via)+'</td><td>'+(x.tx?'<a href="https://celoscan.io/tx/'+e(x.tx)+'">'+e(x.tx.slice(0,10))+'…</a>':'free')+'</td></tr>').join("")+'</table>'}).catch(()=>{document.getElementById("reqs").innerHTML='<p style="color:var(--mut)">The live log is at <a href="https://spendguard-scout.liveapps.dev/requests">https://spendguard-scout.liveapps.dev/requests</a> (the service runs on the agent\'s own box and may be briefly offline).</p>'});
+</script>
+</section>
+
 <section><h2>The problem</h2>
 <div class="grid2">
  <div class="card"><h3>Agents need paid data</h3>Grant reviewers, judges and builders keep asking <i>“is anyone actually using this?”</i> Good answers need X, Reddit and YouTube searches that cost money per call. x402 on Celo lets an agent pay for each one in stablecoins, with no API keys or accounts.</div>
@@ -166,7 +187,7 @@ ul{padding-left:20px}li{margin:4px 0}
   <li>Payee allowlist: buy's <code>payTo</code> only; host allowlist: <code>gateway.usebuy.ai</code></li>
   <li>Tokens: USDC, USD₮, USAT on Celo; network <code>eip155:42220</code> only</li>
   <li>Runs inside the x402 client's <code>onBeforePaymentCreation</code> hook, so a refused payment is never signed</li>
-  <li>The spending key only holds what the session key sent it, so the onchain cap bounds what the agent can spend each day</li>
+  <li>The spending key holds what the session key sent it plus what callers paid for full briefs; the SpendPolicy daily cap bounds what the agent spends each day either way</li>
  </ul></div>
 </div></section>
 
@@ -199,12 +220,13 @@ ${payRows}
 <table><tr><th>Brief</th><th>Notes</th></tr>
 ${briefs.map(([s, n, d]) => `<tr><td><a href="briefs/${s}.html">${n}</a> · <a href="${REPO}/blob/main/reports/${s}.md">md</a></td><td>${d || "first mainnet batch (before the relevance filter)"}</td></tr>`).join("\n")}
 </table>
-<p><b>Want a brief?</b> <a href="${REPO}/issues/new?title=Brief%20request:%20&body=Project%20name:%0ARepo%20(owner/name):%0ASearch%20terms:">Open an issue</a> with your project name and repo. Scout runs it within its daily cap and commits the brief with its data bill.</p>
+<p><b>Want a brief?</b> Run the <a href="#try">curl above</a>, or <a href="${REPO}/issues/new?title=Brief%20request:%20&body=Project%20name:%0ARepo%20(owner/name):%0ASearch%20terms:">open an issue</a> with your project name and repo. Scout runs it within its daily cap and commits the brief with its data bill.</p>
 </section>
 
 <section><h2>Run it yourself</h2>
 <div class="flow">git clone ${REPO} && cd celo-spendguard && npm install
-npm test                                  <span class="g"># 14 tests: policy, parsers, relevance filter, local x402 seller end-to-end</span>
+npm test                                  <span class="g"># 20 tests: policy, parsers, relevance filter, local x402 seller, the public service (free tier, x402 offer, paid flow, MCP)</span>
+node bin/serve.mjs                        <span class="g"># the public service: /v1/brief, /v1/brief/full (x402), /mcp</span>
 SPENDGUARD_KEY_FILE=./agent.key node bin/scout.mjs --project "Your project" --repo you/repo
 node scripts/status.mjs ${reg.owner}   <span class="g"># balances, ERC-8004 identity, ledger summary</span></div>
 </section>

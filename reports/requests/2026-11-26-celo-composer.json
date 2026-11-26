@@ -1,0 +1,40 @@
+{
+  "project": "celo-composer",
+  "query": "\"celo-composer\"",
+  "repo": "https://github.com/celo-org/celo-composer",
+  "started": "2026-11-26T00:42:14.212Z",
+  "finished": "2026-11-26T00:42:15.339Z",
+  "network": "celo",
+  "payer": null,
+  "payerKind": null,
+  "score": {
+    "total": 17,
+    "parts": {
+      "github": 17,
+      "hackerNews": 0,
+      "x": 0,
+      "reddit": 0
+    }
+  },
+  "github": {
+    "url": "https://github.com/celo-org/celo-composer",
+    "stars": 189,
+    "forks": 189,
+    "openIssues": 8,
+    "pushedAt": "2026-11-24T13:21:30Z",
+    "createdAt": "2022-02-08T20:44:53Z",
+    "commits30d": 6,
+    "description": "celo-composer is a starter project with all code needed to build, deploy, and upgrade a dapps on Celo."
+  },
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "x": null,
+  "reddit": null,
+  "receipts": [],
+  "budget": null,
+  "funding": null,
+  "errors": []
+}

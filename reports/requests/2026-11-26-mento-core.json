@@ -1,0 +1,40 @@
+{
+  "project": "mento-core",
+  "query": "\"mento-core\"",
+  "repo": "https://github.com/mento-protocol/mento-core",
+  "started": "2026-11-26T00:43:09.368Z",
+  "finished": "2026-11-26T00:43:10.142Z",
+  "network": "celo",
+  "payer": null,
+  "payerKind": null,
+  "score": {
+    "total": 6,
+    "parts": {
+      "github": 6,
+      "hackerNews": 0,
+      "x": 0,
+      "reddit": 0
+    }
+  },
+  "github": {
+    "url": "https://github.com/mento-protocol/mento-core",
+    "stars": 11,
+    "forks": 16,
+    "openIssues": 3,
+    "pushedAt": "2026-07-24T14:57:23Z",
+    "createdAt": "2022-08-18T16:23:28Z",
+    "commits30d": 0,
+    "description": "Core smart contracts of the Mento protocol."
+  },
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "x": null,
+  "reddit": null,
+  "receipts": [],
+  "budget": null,
+  "funding": null,
+  "errors": []
+}

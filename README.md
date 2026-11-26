@@ -6,6 +6,27 @@ Built by [Hexbox Tools](https://github.com/HexboxTools) for Celo's *Agents Open 
 
 **Live page:** https://hexboxtools.github.io/celo-spendguard/ · **Demo video (MP4):** https://hexboxtools.github.io/celo-spendguard/demo.mp4 · ERC-8004 agent **#10134** on Celo mainnet · 14 settled x402 payments, 1 refused at the cap · **the Altana session key funds and caps the agent's spending key** (since Nov 25, 6:20 PM ET).
 
+## Try it now (no install)
+
+Scout runs as a public service. Ask it for a traction brief on any GitHub project:
+
+```bash
+# free: GitHub + Hacker News, no wallet, 6 an hour per caller
+curl "https://spendguard-scout.liveapps.dev/v1/brief?repo=celo-org/celo-composer&by=@yourhandle"
+
+# full brief, paid over x402 on Celo ($0.02 in USDC, USD₮ or USA₮): adds X/YouTube + Reddit,
+# bought by the agent inside its own SpendPolicy cap, with a data bill of settlement txs
+npx @celo/buy curl "https://spendguard-scout.liveapps.dev/v1/brief/full?repo=celo-org/celo-composer&by=@yourhandle"
+
+# MCP server (streamable HTTP), tool `traction_brief`
+claude mcp add --transport http spendguard-scout https://spendguard-scout.liveapps.dev/mcp
+```
+
+- Every outside request is logged with the handle you pass in `by` (optional): live at [`/requests`](https://spendguard-scout.liveapps.dev/requests), committed to [`ledger/requests.jsonl`](ledger/requests.jsonl). Paid requests carry their Celo settlement tx.
+- Full-brief payments go to the agent's spending key (`0xB1809549…95ad`), so the caller's payment funds the data bought for their brief. The SpendPolicy daily cap still bounds what the agent spends. The agent wallet settles each payment itself (EIP-3009 `transferWithAuthorization`, gas paid by the agent, ERC-8021 tag on the tx), using `@x402/evm`'s facilitator scheme. First mainnet settlement through this code: [0x5b6e067f…](https://celoscan.io/tx/0x5b6e067f6cb38fbd169396938a5af6bc6f56586253bceb49e4b15e2a63fa4c69) (a 0.001 USDC self-test between the agent's own wallets).
+- Agent docs: [`llms.txt`](https://spendguard-scout.liveapps.dev/llms.txt), [`openapi.json`](https://spendguard-scout.liveapps.dev/openapi.json). Listed on [agent402.tools](https://agent402.tools) and [402index.io](https://402index.io). Code: [`src/server.mjs`](src/server.mjs), run with `node bin/serve.mjs`.
+- The service runs on the agent's own machine behind a liveapps.dev tunnel, so it can be briefly offline.
+
 ## The job
 
 Builders, grant reviewers and hackathon judges keep asking the same question: *is anyone actually using this project?* Spendguard Scout answers it with a short traction brief:
@@ -25,7 +46,7 @@ An agent with a funded wallet is a liability unless something it cannot override
 |---|---|---|
 | **Altana session key** | the smart account onchain (EIP-7702, same address) | $0.05/day spend caps on USDC and USD₮; may call `USDC.transfer` (and the USD₮ contract), nothing else; 14-day expiry; revocable in one tx (`scripts/altana-revoke.mjs`). The session key funds the x402 spending key (`scripts/altana-topup.mjs`), so every dollar the agent spends passed through this cap. `node scripts/session-status.mjs` reads it live. |
 | **SpendPolicy** (`src/policy.mjs`) | the agent process, before any signature | per-call cap, daily cap per UTC day, allowlisted payees (`payTo`), hosts, assets and network. Refusals are logged too. |
-| **Working balance** | the chain | the spending key only holds what the session key sent it (one day's float at most). |
+| **Working balance** | the chain | the spending key holds what the session key sent it plus what callers paid for full briefs; the SpendPolicy daily cap applies to all of it. |
 
 Every payment, failure and refusal goes to an append-only ledger (`ledger/<network>.jsonl`) that is committed to this repo.
 
@@ -58,7 +79,7 @@ agent        scout --project NAME --repo owner/name
 
 ```bash
 npm install
-npm test                                   # 14 tests: policy, parsers, relevance filter, local x402 seller end-to-end
+npm test                                   # 20 tests: policy, parsers, relevance filter, local x402 seller, public service (free tier, x402 offer, paid flow, MCP)
 
 # sandbox (Celo Sepolia, test USDC from buy's faucet, no money)
 SPENDGUARD_NETWORK=celo-sepolia SPENDGUARD_KEY_FILE=./test.key \
@@ -83,7 +104,7 @@ Key files contain a line with the 0x-prefixed private key. Defaults: `SPENDGUARD
 
 ## Want a brief?
 
-Open an issue with your project name and repo. Scout runs it and commits the brief and its data bill to `reports/`.
+Run the curl under *Try it now*, or open an issue with your project name and repo. Scout runs it and commits the brief and its data bill to `reports/`.
 
 ## Status
 
