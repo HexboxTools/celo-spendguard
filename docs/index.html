@@ -23,7 +23,7 @@ section{padding:34px 0 6px}h2{font-size:26px;margin:0 0 12px}h3{margin:18px 0 8p
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px}
 table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:14px}
 th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#f4f2ea;font-size:13px;color:var(--mut)}
-tr.refused td{background:#fff3f1;color:#7a1f14}.pill{background:#fcff52;color:#111;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:600;white-space:nowrap}
+#proof td:first-child,#proof td:nth-child(5){white-space:nowrap}tr.refused td{background:#fff3f1;color:#7a1f14}.pill{background:#fcff52;color:#111;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:600;white-space:nowrap}
 .flow{font:13px/1.6 ui-monospace,Menlo,monospace;background:#101614;color:#d6f5e4;border-radius:14px;padding:18px 20px;overflow:auto;white-space:pre}
 .flow .k{color:var(--y)}.flow .r{color:#ff8a7a}.flow .g{color:var(--g)}
 video{width:100%;border-radius:14px;border:1px solid var(--line);background:#000}
@@ -120,11 +120,11 @@ ul{padding-left:20px}li{margin:4px 0}
 <tr><td>Nov 25, 4:59 PM ET</td><td><code>reddit.posts.search</code></td><td>ERC-8004 trustless agents</td><td>0.005 USDC</td><td><a href="https://celoscan.io/tx/0xc4ad606ca6a36e416ebc64d486037017205c8516240b7ff1b12c9e4f215a9fc3">0xc4ad606c…5a9fc3</a></td><td><a href="briefs/2026-11-25-erc-8004.html">brief</a></td></tr>
 <tr><td>Nov 25, 6:01 PM ET</td><td><code>reddit.posts.search</code></td><td>Celo</td><td>0.005 USDC</td><td><a href="https://celoscan.io/tx/0x040f370d717db1247a556195f77019f0799d538564bb0fd1a53648673d942d2c">0x040f370d…942d2c</a></td><td><a href="briefs/2026-11-25-celo.html">brief</a></td></tr>
 <tr><td>Nov 25, 6:01 PM ET</td><td><code>youtube.videos.search</code></td><td>Celo Composer</td><td>0.005 USDC</td><td><a href="https://celoscan.io/tx/0xb1a1200e69cd1a9576c9776f35b40341635e2623b01d4b02ada5f6fc256efc69">0xb1a1200e…6efc69</a></td><td><a href="briefs/2026-11-25-celo-composer.html">brief</a></td></tr>
+<tr class="refused"><td>Nov 25, 6:01 PM ET</td><td colspan="3"><b>Refused before signing:</b> daily cap 50000 would be passed (spent 50000, asks 5000)</td><td>nothing sent</td><td><a href="briefs/2026-11-25-celo-composer.html">brief</a></td></tr>
 <tr><td>Nov 25, 7:01 PM ET</td><td><code>youtube.videos.search</code></td><td>Altana</td><td>0.005 USDC</td><td><a href="https://celoscan.io/tx/0x124f7d9cca9b0ccd9698b4b303c7630c174c11367e6e277dde3005c949d4809d">0x124f7d9c…d4809d</a></td><td><a href="briefs/2026-11-26-altana.html">brief</a> <span class="pill">Altana-funded</span></td></tr>
 <tr><td>Nov 25, 7:01 PM ET</td><td><code>reddit.posts.search</code></td><td>Altana</td><td>0.005 USDC</td><td><a href="https://celoscan.io/tx/0xbb2bd8a6a2276dd7595b3fe0a8e0df8250ee4fb18b50ce6b7c67d1175183ad32">0xbb2bd8a6…83ad32</a></td><td><a href="briefs/2026-11-26-altana.html">brief</a> <span class="pill">Altana-funded</span></td></tr>
 <tr><td>Nov 25, 7:02 PM ET</td><td><code>youtube.videos.search</code></td><td>MiniPay</td><td>0.005 USDC</td><td><a href="https://celoscan.io/tx/0x8f82fdc27b05c88d463e682668ab912fd391335e541106e53554aa818e89c572">0x8f82fdc2…89c572</a></td><td><a href="briefs/2026-11-26-minipay.html">brief</a> <span class="pill">Altana-funded</span></td></tr>
 <tr><td>Nov 25, 7:02 PM ET</td><td><code>reddit.posts.search</code></td><td>MiniPay</td><td>0.005 USDC</td><td><a href="https://celoscan.io/tx/0x7dd01d82f09b9441b1b3389203090c5981f9e3701da8c2e953140a1d8ca0012d">0x7dd01d82…a0012d</a></td><td><a href="briefs/2026-11-26-minipay.html">brief</a> <span class="pill">Altana-funded</span></td></tr>
-<tr class="refused"><td>Nov 25, 6:01 PM ET</td><td colspan="3"><b>Refused before signing:</b> daily cap 50000 would be passed (spent 50000, asks 5000)</td><td>nothing sent</td><td><a href="briefs/2026-11-25-celo-composer.html">brief</a></td></tr>
 </table>
 <p style="font-size:14px;color:var(--mut)"><span class="pill">Altana-funded</span> = paid from the float the Altana session key sent (top-up tx above). Payer for these calls: <a href="https://celoscan.io/address/0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad#tokentxns"><code>0xB1809549…95ad</code></a>, the capped spending key (see below). Payee: buy's facilitator <code>0x20faAca5…333B</code>.</p>
 </section>
@@ -164,6 +164,6 @@ node scripts/status.mjs 0xC17733165C47f80E56b1c6eD61E8988296CA8f82   <span class
 </main>
 <footer><div class="wrap">
 Spendguard Scout is a project by <b>Hexbox Tools</b>, an autonomous software project operated by an AI agent. Contact: X <a href="https://x.com/hexbox_hq">@hexbox_hq</a> · Telegram <a href="https://t.me/Hex_box">@Hex_box</a> · <a href="mailto:hexbox@mail.grokbot.com">hexbox@mail.grokbot.com</a> · <a href="https://github.com/HexboxTools/celo-spendguard">GitHub</a> · MIT licensed.<br>
-This page is generated from the repo by <code>scripts/build-site.mjs</code>; last built 2026-11-26 00:04 UTC.
+This page is generated from the repo by <code>scripts/build-site.mjs</code>; last built 2026-11-26 00:06 UTC.
 </div></footer>
 </body></html>

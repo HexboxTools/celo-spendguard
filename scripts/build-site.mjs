@@ -47,8 +47,8 @@ const briefs = [
   ["2026-11-25-x402", "x402", ""], ["2026-11-25-mento", "Mento", ""], ["2026-11-25-self", "Self", ""], ["2026-11-25-erc-8004", "ERC-8004", ""],
 ].filter(([s]) => fs.existsSync(`reports/${s}.md`));
 
-const payRows = paid.map((e) => `<tr><td>${et(e.at)}</td><td><code>${esc(e.source)}</code></td><td>${esc(e.query)}</td><td>${usd(e.amount)} ${tok[e.asset.toLowerCase()] || ""}</td><td><a href="${SCAN}/tx/${e.tx}">${short(e.tx)}</a></td><td><a href="briefs/${briefSlug(e)}.html">brief</a>${e.at > firstTopup ? ' <span class="pill">Altana-funded</span>' : ""}</td></tr>`).join("\n");
-const refRows = refused.map((e) => `<tr class="refused"><td>${et(e.at)}</td><td colspan="3"><b>Refused before signing:</b> ${esc(e.reason)}</td><td>nothing sent</td><td><a href="briefs/${e.day}-celo-composer.html">brief</a></td></tr>`).join("\n");
+const refRow = (e) => `<tr class="refused"><td>${et(e.at)}</td><td colspan="3"><b>Refused before signing:</b> ${esc(e.reason)}</td><td>nothing sent</td><td><a href="briefs/${e.day}-celo-composer.html">brief</a></td></tr>`;
+const payRows = [...paid, ...refused].sort((x, y) => (x.at < y.at ? -1 : 1)).map((e) => e.kind === "refused" ? refRow(e) : `<tr><td>${et(e.at)}</td><td><code>${esc(e.source)}</code></td><td>${esc(e.query)}</td><td>${usd(e.amount)} ${tok[e.asset.toLowerCase()] || ""}</td><td><a href="${SCAN}/tx/${e.tx}">${short(e.tx)}</a></td><td><a href="briefs/${briefSlug(e)}.html">brief</a>${e.at > firstTopup ? ' <span class="pill">Altana-funded</span>' : ""}</td></tr>`).join("\n");
 
 // Minimal Markdown for the briefs: headings, bullets, tables, quotes, links, bold, italics, code.
 const inline = (t) => esc(t).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/_([^_]+)_$/g, "<i>$1</i>").replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, a, h) => `<a href="${h.replace(/^(2026-[\w-]+)\.md$/, "$1.html")}">${a}</a>`);
@@ -98,7 +98,7 @@ section{padding:34px 0 6px}h2{font-size:26px;margin:0 0 12px}h3{margin:18px 0 8p
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px}
 table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:14px}
 th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#f4f2ea;font-size:13px;color:var(--mut)}
-tr.refused td{background:#fff3f1;color:#7a1f14}.pill{background:#fcff52;color:#111;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:600;white-space:nowrap}
+#proof td:first-child,#proof td:nth-child(5){white-space:nowrap}tr.refused td{background:#fff3f1;color:#7a1f14}.pill{background:#fcff52;color:#111;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:600;white-space:nowrap}
 .flow{font:13px/1.6 ui-monospace,Menlo,monospace;background:#101614;color:#d6f5e4;border-radius:14px;padding:18px 20px;overflow:auto;white-space:pre}
 .flow .k{color:var(--y)}.flow .r{color:#ff8a7a}.flow .g{color:var(--g)}
 video{width:100%;border-radius:14px;border:1px solid var(--line);background:#000}
@@ -179,7 +179,6 @@ ${setup.map(([a, h]) => `<tr><td>${a}</td><td><a href="${SCAN}/tx/${h}">${short(
 <h3>Every paid call (from <a href="${REPO}/blob/main/ledger/celo.jsonl">ledger/celo.jsonl</a>)</h3>
 <table><tr><th>When</th><th>Source</th><th>Query</th><th>Paid</th><th>Settlement</th><th></th></tr>
 ${payRows}
-${refRows}
 </table>
 <p style="font-size:14px;color:var(--mut)"><span class="pill">Altana-funded</span> = paid from the float the Altana session key sent (top-up tx above). Payer for these calls: <a href="${SCAN}/address/0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad#tokentxns"><code>0xB1809549…95ad</code></a>, the capped spending key (see below). Payee: buy's facilitator <code>0x20faAca5…333B</code>.</p>
 </section>
