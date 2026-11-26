@@ -1,0 +1,41 @@
+{
+  "project": "Mondeto",
+  "query": "\"Mondeto\"",
+  "repo": "https://github.com/celo-org/mondeto",
+  "started": "2026-11-26T00:49:04.276Z",
+  "finished": "2026-11-26T00:49:05.362Z",
+  "network": "celo",
+  "payer": null,
+  "payerKind": null,
+  "score": {
+    "total": 9,
+    "parts": {
+      "github": 9,
+      "hackerNews": 0,
+      "x": 0,
+      "reddit": 0
+    }
+  },
+  "github": {
+    "url": "https://github.com/celo-org/mondeto",
+    "stars": 1,
+    "forks": 2,
+    "openIssues": 8,
+    "pushedAt": "2026-11-25T22:33:54Z",
+    "createdAt": "2026-03-18T00:49:04Z",
+    "commits30d": 15,
+    "description": null
+  },
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "onchain": null,
+  "x": null,
+  "reddit": null,
+  "receipts": [],
+  "budget": null,
+  "funding": null,
+  "errors": []
+}

@@ -1,0 +1,41 @@
+{
+  "project": "Celopedia",
+  "query": "\"Celopedia\"",
+  "repo": "https://github.com/celo-org/celopedia-skills",
+  "started": "2026-11-26T00:49:01.367Z",
+  "finished": "2026-11-26T00:49:02.469Z",
+  "network": "celo",
+  "payer": null,
+  "payerKind": null,
+  "score": {
+    "total": 16,
+    "parts": {
+      "github": 16,
+      "hackerNews": 0,
+      "x": 0,
+      "reddit": 0
+    }
+  },
+  "github": {
+    "url": "https://github.com/celo-org/celopedia-skills",
+    "stars": 31,
+    "forks": 23,
+    "openIssues": 6,
+    "pushedAt": "2026-11-25T16:16:51Z",
+    "createdAt": "2026-04-07T10:46:07Z",
+    "commits30d": 24,
+    "description": null
+  },
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "onchain": null,
+  "x": null,
+  "reddit": null,
+  "receipts": [],
+  "budget": null,
+  "funding": null,
+  "errors": []
+}

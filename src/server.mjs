@@ -25,7 +25,7 @@ export const OFFER_TOKENS = [
 const EXAMPLE_OUT = { project: "Celo Composer", repo: "https://github.com/celo-org/celo-composer", score: { total: 41, parts: { github: 27, hackerNews: 0, x: 8, reddit: 6 } }, github: { stars: 700, forks: 350, commits30d: 4 }, receipts: [{ source: "reddit.posts.search", amount: "5000", tx: "0x…" }], markdown: "# Traction brief: Celo Composer …" };
 export const BAZAAR = declareDiscoveryExtension({
   input: { repo: "celo-org/celo-composer", project: "Celo Composer", by: "@yourhandle" },
-  inputSchema: { properties: { repo: { type: "string", description: "GitHub repo, owner/name or URL" }, project: { type: "string", description: "Name to search for (default: repo name)" }, by: { type: "string", description: "Optional: your handle, shown in the public request log" } }, required: ["repo"] },
+  inputSchema: { properties: { repo: { type: "string", description: "GitHub repo, owner/name or URL" }, project: { type: "string", description: "Name to search for (default: repo name)" }, by: { type: "string", description: "Optional: your handle, shown in the public request log" }, address: { type: "string", description: "Optional Celo address: txs sent, ERC-8004 identities owned" } }, required: ["repo"] },
   output: { example: EXAMPLE_OUT },
 });
 BAZAAR.bazaar.info.input.method = "GET";
@@ -40,7 +40,7 @@ export function parseInput(q) {
   const project = String(q.project || q.name || (r ? r.repo : "")).trim().slice(0, 60);
   if (!r && !project) return { error: "give repo=owner/name (or a GitHub URL), and optionally project=Name" };
   if (project && !/^[\p{L}\p{N} .,'&+_#@-]{1,60}$/u.test(project)) return { error: "project: letters, digits, spaces and . , ' & + _ # @ - only (max 60)" };
-  return { repo: r ? `${r.owner}/${r.repo}` : null, project, by: cleanHandle(q.by || q.handle), query: q.query ? String(q.query).slice(0, 80) : undefined };
+  return { repo: r ? `${r.owner}/${r.repo}` : null, project, by: cleanHandle(q.by || q.handle), query: q.query ? String(q.query).slice(0, 80) : undefined, address: /^0x[0-9a-fA-F]{40}$/.test(String(q.address || "")) ? q.address : undefined };
 }
 
 class Limiter {
@@ -99,19 +99,19 @@ export function createScoutService({
   }
 
   async function freeBrief(inp, ctx) {
-    const key = `${lower(inp.repo)}|${lower(inp.project)}|${lower(inp.query)}`;
+    const key = `${lower(inp.repo)}|${lower(inp.project)}|${lower(inp.query)}|${lower(inp.address)}`;
     const hit = cache.get(key);
     let report;
     if (hit && now() - hit.at < cacheMs) report = hit.report;
     else {
-      report = await scout({ project: inp.project, repo: inp.repo, query: inp.query, payer: null, policy: null, network, outDir, fetchImpl, paid: false });
+      report = await scout({ project: inp.project, repo: inp.repo, query: inp.query, address: inp.address, payer: null, policy: null, network, outDir, fetchImpl, paid: false });
       cache.set(key, { at: now(), report });
     }
     const entry = record({ id: crypto.randomUUID().slice(0, 8), tier: "free", via: ctx.via, project: inp.project, repo: inp.repo, by: inp.by, score: report.score.total, self: ctx.self || undefined, ipHash: ctx.ipHash, ua: ctx.ua, cached: !!(hit && report === hit.report) || undefined, report: report.files ? `${outDir}/${report.files[1]}` : null });
     return { report, entry };
   }
 
-  const markdownOf = (report, entry) => (entry.tier === "free" ? toMarkdown(report, network).replace(/Score \*\*(\d+)\/100\*\* \(GitHub (\d+)\/30, Hacker News (\d+)\/20, Social 0\/30, Reddit 0\/20\)/, "Free tier score **$1/50** (GitHub $2/30, Hacker News $3/20; social sources are in the full brief)").replace("| (no paid calls) | 0 | |", "| (free tier: no paid calls) | 0 | |") : toMarkdown(report, network)) + `\nRequest \`${entry.id}\` logged at ${publicBase()}/requests${entry.tier === "free" ? `\n\nFree brief = GitHub + Hacker News. The full brief (${(Number(price) / 1e6).toFixed(2)} USD over x402 on Celo) adds X/YouTube and Reddit: \`npx @celo/buy curl "${publicBase()}/v1/brief/full?repo=${report.repo ? encodeURIComponent(String(report.repo).replace("https://github.com/", "")) : ""}"\`` : ""}\n`;
+  const markdownOf = (report, entry) => toMarkdown(report, network) + `\nRequest \`${entry.id}\` logged at ${publicBase()}/requests${entry.tier === "free" ? `\n\nFree brief = GitHub + Hacker News. The full brief (${(Number(price) / 1e6).toFixed(2)} USD over x402 on Celo) adds X/YouTube and Reddit: \`npx @celo/buy curl "${publicBase()}/v1/brief/full?repo=${report.repo ? encodeURIComponent(String(report.repo).replace("https://github.com/", "")) : ""}"\`` : ""}\n`;
 
   function send(res, status, body, headers = {}) {
     const isStr = typeof body === "string";
@@ -162,7 +162,7 @@ export function createScoutService({
       if (!s?.success) return { status: 402, body: { ...pr, error: `settlement failed: ${s?.errorReason || "unknown"}` } };
       const ctx = { ...who(req), via: "http" };
       let report = null, err = null;
-      try { report = await scout({ project: inp.project, repo: inp.repo, query: inp.query, payer, policy, network, outDir, fetchImpl, paid: true }); } catch (e) { err = String(e.message).slice(0, 200); }
+      try { report = await scout({ project: inp.project, repo: inp.repo, query: inp.query, address: inp.address, payer, policy, network, outDir, fetchImpl, paid: true }); } catch (e) { err = String(e.message).slice(0, 200); }
       const entry = record({ id: crypto.randomUUID().slice(0, 8), tier: "full", via: "x402", project: inp.project, repo: inp.repo, by: inp.by, score: report?.score.total ?? null, payer: s.payer || v.payer || acc.payer || null, asset: match.asset, amount: match.amount, tx: s.transaction, dataBill: report?.receipts?.map((r) => ({ source: r.source, amount: r.amount, tx: r.tx })) || [], self: ctx.self || undefined, ipHash: ctx.ipHash, ua: ctx.ua, error: err || undefined, report: report?.files ? `${outDir}/${report.files[1]}` : null });
       const settleHdr = b64({ success: true, transaction: s.transaction, network: network.caip2, payer: entry.payer });
       if (!report) return { status: 200, headers: { "PAYMENT-RESPONSE": settleHdr }, body: { request: entry.id, tier: "full", error: `paid ${s.transaction} but the brief failed: ${err}. Open an issue and we refund.` } };
@@ -174,7 +174,7 @@ export function createScoutService({
   }
 
   // MCP over streamable HTTP, JSON responses only (no SSE). One tool: traction_brief (the free tier).
-  const TOOL = { name: "traction_brief", description: "Traction brief for a GitHub project from Spendguard Scout (an agent on Celo): stars, forks, commits in 30 days, Hacker News stories and points, and a 0-50 score for the free tier. Use when asked whether anyone is using a project.", inputSchema: { type: "object", properties: { repo: { type: "string", description: "owner/name or GitHub URL" }, project: { type: "string" }, by: { type: "string", description: "your handle for the public request log (optional)" } }, required: ["repo"] } };
+  const TOOL = { name: "traction_brief", description: "Traction brief for a GitHub project from Spendguard Scout (an agent on Celo): stars, forks, commits in 30 days, Hacker News stories and points, and a 0-50 score for the free tier. Use when asked whether anyone is using a project.", inputSchema: { type: "object", properties: { repo: { type: "string", description: "owner/name or GitHub URL" }, project: { type: "string" }, by: { type: "string", description: "your handle for the public request log (optional)" }, address: { type: "string", description: "optional Celo address of the agent or contract" } }, required: ["repo"] } };
   async function handleMcp(req, res, body) {
     let msg; try { msg = JSON.parse(body || "{}"); } catch { return send(res, 400, { jsonrpc: "2.0", id: null, error: { code: -32700, message: "parse error" } }); }
     const reply = (id, result) => send(res, 200, { jsonrpc: "2.0", id, result });
@@ -206,7 +206,7 @@ export function createScoutService({
       name: "Spendguard Scout", version: VERSION, by: "Hexbox Tools (an AI agent; not a person)",
       what: "Traction briefs: is anyone actually using this project? Built for Celo's Agents Open for Business hackathon. ERC-8004 agent #10134 on Celo.",
       try: { free: `curl "${b}/v1/brief?repo=celo-org/celo-composer&by=@yourhandle"`, full_x402: `npx @celo/buy curl "${b}/v1/brief/full?repo=celo-org/celo-composer&by=@yourhandle"`, mcp: `${b}/mcp` },
-      endpoints: { free: `${b}/v1/brief?repo=owner/name[&project=Name][&by=@handle][&format=json]`, full: `${b}/v1/brief/full?repo=owner/name (x402, ${(Number(price) / 1e6).toFixed(2)} USD in USDC/USDT/USA₮ on Celo)`, mcp: `${b}/mcp`, requests: `${b}/requests`, openapi: `${b}/openapi.json`, llms: `${b}/llms.txt` },
+      endpoints: { free: `${b}/v1/brief?repo=owner/name[&project=Name][&address=0x…][&by=@handle][&format=json]`, full: `${b}/v1/brief/full?repo=owner/name (x402, ${(Number(price) / 1e6).toFixed(2)} USD in USDC/USDT/USA₮ on Celo)`, mcp: `${b}/mcp`, requests: `${b}/requests`, openapi: `${b}/openapi.json`, llms: `${b}/llms.txt` },
       limits: "free: 6 an hour per caller, 200 a day; full: one at a time, inside the agent's $0.05/day SpendPolicy cap",
       repo: "https://github.com/HexboxTools/celo-spendguard", site: "https://hexboxtools.github.io/celo-spendguard/", erc8004: { chain: "celo", agentId: 10134 },
     };
@@ -214,7 +214,7 @@ export function createScoutService({
 
   function openapi() {
     const b = publicBase();
-    const params = [{ name: "repo", in: "query", required: true, schema: { type: "string" }, description: "GitHub repo, owner/name or URL" }, { name: "project", in: "query", schema: { type: "string" } }, { name: "by", in: "query", schema: { type: "string" }, description: "your handle, for the public request log" }];
+    const params = [{ name: "repo", in: "query", required: true, schema: { type: "string" }, description: "GitHub repo, owner/name or URL" }, { name: "project", in: "query", schema: { type: "string" } }, { name: "by", in: "query", schema: { type: "string" }, description: "your handle, for the public request log" }, { name: "address", in: "query", schema: { type: "string" }, description: "optional Celo address (agent or contract): txs sent and ERC-8004 identities owned" }];
     return {
       openapi: "3.1.0", info: { title: "Spendguard Scout", version: VERSION, description: "Traction briefs for GitHub projects from an agent that pays for its own data on Celo inside a spend cap." }, servers: [{ url: b }],
       paths: {

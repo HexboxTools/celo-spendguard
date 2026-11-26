@@ -1,0 +1,41 @@
+{
+  "project": "Glo Dollar",
+  "query": "\"Glo Dollar\"",
+  "repo": "https://github.com/Glo-Foundation/glo-wallet",
+  "started": "2026-11-26T00:49:05.815Z",
+  "finished": "2026-11-26T00:49:06.676Z",
+  "network": "celo",
+  "payer": null,
+  "payerKind": null,
+  "score": {
+    "total": 6,
+    "parts": {
+      "github": 6,
+      "hackerNews": 0,
+      "x": 0,
+      "reddit": 0
+    }
+  },
+  "github": {
+    "url": "https://github.com/Glo-Foundation/glo-wallet",
+    "stars": 11,
+    "forks": 17,
+    "openIssues": 3,
+    "pushedAt": "2026-03-19T15:58:21Z",
+    "createdAt": "2023-05-04T08:54:14Z",
+    "commits30d": 0,
+    "description": null
+  },
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "onchain": null,
+  "x": null,
+  "reddit": null,
+  "receipts": [],
+  "budget": null,
+  "funding": null,
+  "errors": []
+}

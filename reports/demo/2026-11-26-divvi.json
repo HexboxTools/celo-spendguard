@@ -1,0 +1,41 @@
+{
+  "project": "Divvi",
+  "query": "\"Divvi\"",
+  "repo": "https://github.com/divvi-xyz/divvi-protocol",
+  "started": "2026-11-26T00:49:07.115Z",
+  "finished": "2026-11-26T00:49:08.030Z",
+  "network": "celo",
+  "payer": null,
+  "payerKind": null,
+  "score": {
+    "total": 5,
+    "parts": {
+      "github": 5,
+      "hackerNews": 0,
+      "x": 0,
+      "reddit": 0
+    }
+  },
+  "github": {
+    "url": "https://github.com/divvi-xyz/divvi-protocol",
+    "stars": 7,
+    "forks": 5,
+    "openIssues": 13,
+    "pushedAt": "2026-01-19T16:42:50Z",
+    "createdAt": "2024-12-11T20:03:21Z",
+    "commits30d": 0,
+    "description": null
+  },
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "onchain": null,
+  "x": null,
+  "reddit": null,
+  "receipts": [],
+  "budget": null,
+  "funding": null,
+  "errors": []
+}

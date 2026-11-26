@@ -1,0 +1,47 @@
+{
+  "project": "celo-spendguard",
+  "query": "\"celo-spendguard\"",
+  "repo": "https://github.com/HexboxTools/celo-spendguard",
+  "started": "2026-11-26T00:48:12.342Z",
+  "finished": "2026-11-26T00:48:13.282Z",
+  "network": "celo",
+  "payer": null,
+  "payerKind": null,
+  "score": {
+    "total": 6,
+    "parts": {
+      "github": 6,
+      "hackerNews": 0,
+      "x": 0,
+      "reddit": 0
+    }
+  },
+  "github": {
+    "url": "https://github.com/HexboxTools/celo-spendguard",
+    "stars": 0,
+    "forks": 0,
+    "openIssues": 0,
+    "pushedAt": "2026-11-26T00:46:44Z",
+    "createdAt": "2026-11-25T16:17:56Z",
+    "commits30d": 9,
+    "description": "An agent that pays for its own data over x402 on Celo, inside an owner-set spend cap (Altana session key + policy). Agents Open for Business hackathon."
+  },
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "onchain": {
+    "address": "0xC17733165C47f80E56b1c6eD61E8988296CA8f82",
+    "txSent": 12,
+    "isContract": false,
+    "erc8004Owned": 1,
+    "explorer": "https://celoscan.io/address/0xC17733165C47f80E56b1c6eD61E8988296CA8f82"
+  },
+  "x": null,
+  "reddit": null,
+  "receipts": [],
+  "budget": null,
+  "funding": null,
+  "errors": []
+}

@@ -46,6 +46,11 @@ const briefs = [
   ["2026-11-25-celo-composer", "Celo Composer", "hit the daily cap: Reddit refused"],
   ["2026-11-25-x402", "x402", ""], ["2026-11-25-mento", "Mento", ""], ["2026-11-25-self", "Self", ""], ["2026-11-25-erc-8004", "ERC-8004", ""],
 ].filter(([s]) => fs.existsSync(`reports/${s}.md`));
+// Free-tier briefs Scout ran on other public Celo projects as samples (not requested by those teams).
+const demos = (fs.existsSync("reports/demo") ? fs.readdirSync("reports/demo") : []).filter((f) => f.endsWith(".md")).sort().map((f) => {
+  const src = fs.readFileSync(`reports/demo/${f}`, "utf8");
+  return [`demo-${f.replace(/\.md$/, "")}`, (src.match(/^# Traction brief: (.+)$/m) || [, f])[1], "free tier sample, run by Hexbox, not requested by the project", `reports/demo/${f.replace(/\.md$/, "")}`];
+});
 
 const refRow = (e) => `<tr class="refused"><td>${et(e.at)}</td><td colspan="3"><b>Refused before signing:</b> ${esc(e.reason)}</td><td>nothing sent</td><td><a href="briefs/${e.day}-celo-composer.html">brief</a></td></tr>`;
 const payRows = [...paid, ...refused].sort((x, y) => (x.at < y.at ? -1 : 1)).map((e) => e.kind === "refused" ? refRow(e) : `<tr><td>${et(e.at)}</td><td><code>${esc(e.source)}</code></td><td>${esc(e.query)}</td><td>${usd(e.amount)} ${tok[e.asset.toLowerCase()] || ""}</td><td><a href="${SCAN}/tx/${e.tx}">${short(e.tx)}</a></td><td><a href="briefs/${briefSlug(e)}.html">brief</a>${e.at > firstTopup ? ' <span class="pill">Altana-funded</span>' : ""}</td></tr>`).join("\n");
@@ -68,9 +73,9 @@ function md(src) {
   return out.join("\n");
 }
 fs.mkdirSync("docs/briefs", { recursive: true });
-for (const [slug, name] of briefs) {
-  const src = fs.readFileSync(`reports/${slug}.md`, "utf8");
-  fs.writeFileSync(`docs/briefs/${slug}.html`, `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Traction brief: ${esc(name)} · Spendguard Scout</title><link rel="icon" href="../logo.png"><style>body{margin:0;font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#16161a;background:#fcfbf6}.bar{background:#0f3d2e;color:#fff;padding:14px 0}.bar a{color:#fcff52;text-decoration:none;font-weight:600}.w{max-width:860px;margin:0 auto;padding:0 22px}h1{margin:28px 0 10px}a{color:#0b6b48}code{font:13px ui-monospace,Menlo,monospace;background:#f1efe6;padding:1px 5px;border-radius:4px}table{border-collapse:collapse;width:100%;background:#fff;border:1px solid #e6e3d8}th,td{text-align:left;padding:8px 12px;border-bottom:1px solid #e6e3d8}th{background:#f4f2ea}.note{border-left:4px solid #fcff52;background:#fffde3;padding:10px 14px}footer{color:#5b5b66;font-size:14px;margin:30px 0}</style></head><body><div class="bar"><div class="w"><a href="../">← Spendguard Scout</a></div></div><div class="w">${md(src)}<footer>Source: <a href="${REPO}/blob/main/reports/${slug}.md">reports/${slug}.md</a> · data: <a href="${REPO}/blob/main/reports/${slug}.json">JSON</a></footer></div></body></html>\n`);
+for (const [slug, name, , srcBase = `reports/${slug}`] of [...briefs, ...demos]) {
+  const src = fs.readFileSync(`${srcBase}.md`, "utf8");
+  fs.writeFileSync(`docs/briefs/${slug}.html`, `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Traction brief: ${esc(name)} · Spendguard Scout</title><link rel="icon" href="../logo.png"><style>body{margin:0;font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#16161a;background:#fcfbf6}.bar{background:#0f3d2e;color:#fff;padding:14px 0}.bar a{color:#fcff52;text-decoration:none;font-weight:600}.w{max-width:860px;margin:0 auto;padding:0 22px}h1{margin:28px 0 10px}a{color:#0b6b48}code{font:13px ui-monospace,Menlo,monospace;background:#f1efe6;padding:1px 5px;border-radius:4px}table{border-collapse:collapse;width:100%;background:#fff;border:1px solid #e6e3d8}th,td{text-align:left;padding:8px 12px;border-bottom:1px solid #e6e3d8}th{background:#f4f2ea}.note{border-left:4px solid #fcff52;background:#fffde3;padding:10px 14px}footer{color:#5b5b66;font-size:14px;margin:30px 0}</style></head><body><div class="bar"><div class="w"><a href="../">← Spendguard Scout</a></div></div><div class="w">${md(src)}<footer>Source: <a href="${REPO}/blob/main/${srcBase}.md">${srcBase}.md</a> · data: <a href="${REPO}/blob/main/${srcBase}.json">JSON</a></footer></div></body></html>\n`);
 }
 
 const html = `<!doctype html>
@@ -220,6 +225,7 @@ ${payRows}
 <table><tr><th>Brief</th><th>Notes</th></tr>
 ${briefs.map(([s, n, d]) => `<tr><td><a href="briefs/${s}.html">${n}</a> · <a href="${REPO}/blob/main/reports/${s}.md">md</a></td><td>${d || "first mainnet batch (before the relevance filter)"}</td></tr>`).join("\n")}
 </table>
+${demos.length ? `<h3>Free-tier samples on other Celo projects</h3><p style="font-size:14px;color:var(--mut)">Run by Hexbox to show the free output (GitHub + Hacker News). Not requested by these teams, and not counted as users.</p><table><tr><th>Brief</th><th>Notes</th></tr>${demos.map(([s, n, d, b]) => `<tr><td><a href="briefs/${s}.html">${esc(n)}</a> · <a href="${REPO}/blob/main/${b}.md">md</a></td><td>${d}</td></tr>`).join("\n")}</table>` : ""}
 <p><b>Want a brief?</b> Run the <a href="#try">curl above</a>, or <a href="${REPO}/issues/new?title=Brief%20request:%20&body=Project%20name:%0ARepo%20(owner/name):%0ASearch%20terms:">open an issue</a> with your project name and repo. Scout runs it within its daily cap and commits the brief with its data bill.</p>
 </section>
 

@@ -1,0 +1,41 @@
+{
+  "project": "Celo agent skills",
+  "query": "\"Celo agent skills\"",
+  "repo": "https://github.com/celo-org/agent-skills",
+  "started": "2026-11-26T00:49:02.931Z",
+  "finished": "2026-11-26T00:49:03.851Z",
+  "network": "celo",
+  "payer": null,
+  "payerKind": null,
+  "score": {
+    "total": 5,
+    "parts": {
+      "github": 5,
+      "hackerNews": 0,
+      "x": 0,
+      "reddit": 0
+    }
+  },
+  "github": {
+    "url": "https://github.com/celo-org/agent-skills",
+    "stars": 8,
+    "forks": 8,
+    "openIssues": 2,
+    "pushedAt": "2026-09-13T03:51:54Z",
+    "createdAt": "2026-01-27T07:38:45Z",
+    "commits30d": 0,
+    "description": "A collection of Agent Skills that teach AI coding agents how to build on Celo and EVM chains."
+  },
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "onchain": null,
+  "x": null,
+  "reddit": null,
+  "receipts": [],
+  "budget": null,
+  "funding": null,
+  "errors": []
+}

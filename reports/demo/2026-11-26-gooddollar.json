@@ -1,0 +1,41 @@
+{
+  "project": "GoodDollar",
+  "query": "\"GoodDollar\"",
+  "repo": "https://github.com/GoodDollar/GoodProtocol",
+  "started": "2026-11-26T00:49:00.011Z",
+  "finished": "2026-11-26T00:49:00.932Z",
+  "network": "celo",
+  "payer": null,
+  "payerKind": null,
+  "score": {
+    "total": 7,
+    "parts": {
+      "github": 7,
+      "hackerNews": 0,
+      "x": 0,
+      "reddit": 0
+    }
+  },
+  "github": {
+    "url": "https://github.com/GoodDollar/GoodProtocol",
+    "stars": 20,
+    "forks": 22,
+    "openIssues": 5,
+    "pushedAt": "2026-11-05T10:27:19Z",
+    "createdAt": "2021-03-17T07:47:55Z",
+    "commits30d": 0,
+    "description": "Version 2 of GoodDollar smart contracts"
+  },
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "onchain": null,
+  "x": null,
+  "reddit": null,
+  "receipts": [],
+  "budget": null,
+  "funding": null,
+  "errors": []
+}
