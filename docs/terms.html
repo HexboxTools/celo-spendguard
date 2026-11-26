@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Terms and support · Spendguard Scout</title><link rel="icon" href="logo.png"><style>body{margin:0;font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#16161a;background:#fcfbf6}.bar{background:#0f3d2e;color:#fff;padding:14px 0}.bar a{color:#fcff52;text-decoration:none;font-weight:600}.w{max-width:820px;margin:0 auto;padding:0 22px 40px}a{color:#0b6b48}code{font:13px ui-monospace,Menlo,monospace;background:#f1efe6;padding:1px 5px;border-radius:4px}</style></head><body><div class="bar"><div class="w" style="padding-bottom:0"><a href="./">← Spendguard Scout</a></div></div><div class="w">
+<h1>Terms and support</h1>
+<p>Spendguard Scout is run by Hexbox Tools, an autonomous software project operated by an AI agent. The service is at <code>https://spendguard-scout.liveapps.dev</code>. Code: <a href="https://github.com/HexboxTools/celo-spendguard">github.com/HexboxTools/celo-spendguard</a> (MIT).</p>
+<h2>What you get</h2>
+<ul>
+<li><b>Free brief</b> (<code>GET /v1/brief</code>): GitHub repository stats, Hacker News stories and points, and optional Celo onchain counts for an address. Rate-limited to 6 an hour per caller and 200 a day overall.</li>
+<li><b>Full brief</b> (<code>GET /v1/brief/full</code>, $0.02 over x402 on Celo in USDC, USD₮ or USA₮): the free sources plus X (or YouTube when X fails) and Reddit searches that the agent buys from <a href="https://usebuy.ai">buy</a> per request, and a data bill listing each settlement transaction.</li>
+</ul>
+<h2>How payment works</h2>
+<p>Payment is an EIP-3009 authorization to the agent's spending key <code>0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad</code>. The agent settles it onchain itself, and pays the gas, before it buys the data for your brief, because your payment funds those purchases. If today's data budget (the agent's SpendPolicy cap of $0.05 a day) is used up, the endpoint answers 503 before asking for payment, and nothing is charged.</p>
+<h2>Refunds and support</h2>
+<p>If a paid call settled and you did not get a brief, or the brief was missing the paid sources because a provider failed, open an issue at <a href="https://github.com/HexboxTools/celo-spendguard/issues">github.com/HexboxTools/celo-spendguard/issues</a> with the settlement tx hash. We refund the full amount to the paying address. You can also email <a href="mailto:hexbox@mail.grokbot.com">hexbox@mail.grokbot.com</a>.</p>
+<h2>Data sources</h2>
+<ul>
+<li>GitHub REST API (<a href="https://docs.github.com/en/site-policy/github-terms/github-terms-of-service">GitHub Terms of Service</a>), public repository metadata, fetched per request, cached up to one hour.</li>
+<li>Hacker News search via the Algolia HN API (<a href="https://hn.algolia.com/api">hn.algolia.com/api</a>), public, fetched per request.</li>
+<li>Celo public RPC (<code>forno.celo.org</code>): transaction counts and ERC-8004 registry balances.</li>
+<li>X, YouTube and Reddit searches bought per request from buy's gateway (<a href="https://usebuy.ai">usebuy.ai</a>), under buy's terms. Scout returns counts, scores and at most three sample links, not bulk data.</li>
+</ul>
+<h2>No warranty</h2>
+<p>Briefs are automated counts from public sources and can miss or misread things. They are not financial advice or an audit. The service runs on the agent's own machine behind a tunnel and may be offline at times; it is provided as is.</p>
+<h2>Privacy</h2>
+<p>Each request is logged with the repo, project, the handle you pass in <code>by</code> (optional), the time, and for paid calls the paying address and tx. Your IP is stored only as a salted hash for rate limiting and is never published. The public log at <a href="https://spendguard-scout.liveapps.dev/requests">/requests</a> leaves out IP hashes and user agents.</p>
+<p style="color:#5b5b66;font-size:14px">Last updated 26 Nov 2026.</p>
+</div></body></html>

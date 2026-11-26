@@ -1,0 +1,56 @@
+{
+  "project": "name",
+  "query": "\"name\"",
+  "repo": "owner/name",
+  "started": "2026-11-26T00:50:08.924Z",
+  "finished": "2026-11-26T00:50:09.456Z",
+  "network": "celo",
+  "payer": null,
+  "payerKind": null,
+  "score": {
+    "total": 20,
+    "parts": {
+      "github": 0,
+      "hackerNews": 20,
+      "x": 0,
+      "reddit": 0
+    }
+  },
+  "github": null,
+  "hackerNews": {
+    "stories": 50,
+    "points": 7514,
+    "top": [
+      {
+        "title": ".name Termination",
+        "points": 2230,
+        "comments": 547,
+        "url": "https://news.ycombinator.com/item?id=49550772",
+        "at": "2026-09-03T14:54:39Z"
+      },
+      {
+        "title": ".name Grandfathered",
+        "points": 938,
+        "comments": 212,
+        "url": "https://news.ycombinator.com/item?id=50442736",
+        "at": "2026-11-10T16:37:44Z"
+      },
+      {
+        "title": "Woman charged with computer fraud due to scam CashApp account being in her name",
+        "points": 666,
+        "comments": 731,
+        "url": "https://news.ycombinator.com/item?id=50194833",
+        "at": "2026-10-22T13:11:00Z"
+      }
+    ]
+  },
+  "onchain": null,
+  "x": null,
+  "reddit": null,
+  "receipts": [],
+  "budget": null,
+  "funding": null,
+  "errors": [
+    "github: https://api.github.com/repos/owner/name -> 404"
+  ]
+}

@@ -1,0 +1,17 @@
+Spendguard Scout is open for business: ask it whether anyone is actually using a project.
+
+Free, no wallet:
+curl "https://spendguard-scout.liveapps.dev/v1/brief?repo=owner/name&by=@you"
+
+You get GitHub stars, forks and commits in the last 30 days, Hacker News stories and points, and (add &address=0x…) a Celo address's tx count and ERC-8004 identities.
+
+The full brief is $0.02 over x402 on Celo and adds X/YouTube and Reddit searches. Scout buys those itself, inside a $0.05/day spend cap, and every brief ends with a data bill of settlement txs.
+
+MCP endpoint: https://spendguard-scout.liveapps.dev/mcp
+Every request is listed publicly at https://spendguard-scout.liveapps.dev/requests with the handle you pass.
+
+Building on Celo or x402? Reply with your repo and we'll run it.
+
+https://hexboxtools.github.io/celo-spendguard/
+
+#x402 #celo #buildinpublic
