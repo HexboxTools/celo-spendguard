@@ -1,0 +1,63 @@
+{
+  "project": "sentry",
+  "query": "\"sentry\"",
+  "repo": "https://github.com/bobeu/sentry",
+  "started": "2026-11-26T00:55:19.346Z",
+  "finished": "2026-11-26T00:55:20.289Z",
+  "network": "celo",
+  "payer": null,
+  "payerKind": null,
+  "score": {
+    "total": 21,
+    "parts": {
+      "github": 6,
+      "hackerNews": 15,
+      "x": 0,
+      "reddit": 0
+    }
+  },
+  "github": {
+    "url": "https://github.com/bobeu/sentry",
+    "stars": 0,
+    "forks": 0,
+    "openIssues": 0,
+    "pushedAt": "2026-11-22T08:18:58Z",
+    "createdAt": "2026-07-14T14:31:50Z",
+    "commits30d": 11,
+    "description": "An AI Employee for Telegram that businesses and individuals can hire to monitor conversations, represent them, moderate communities, and generate intelligent reports while automatically charging from a prepaid on-chain wallet based on completed work"
+  },
+  "hackerNews": {
+    "stories": 44,
+    "points": 165,
+    "top": [
+      {
+        "title": "I'm \"Retiring\" from Tech – Chad Whitacre, Head of Open Source, Sentry.io",
+        "points": 45,
+        "comments": 10,
+        "url": "https://news.ycombinator.com/item?id=48315784",
+        "at": "2026-05-28T21:30:33Z"
+      },
+      {
+        "title": "Ivanti Sentry pre-auth RCE (CVE-2026-10520) – CVSS 10.0, public PoC, CISA KEV",
+        "points": 19,
+        "comments": 2,
+        "url": "https://news.ycombinator.com/item?id=48495383",
+        "at": "2026-06-11T19:38:42Z"
+      },
+      {
+        "title": "Harness Acquires Codecov from Sentry",
+        "points": 8,
+        "comments": 2,
+        "url": "https://news.ycombinator.com/item?id=48371290",
+        "at": "2026-06-02T15:09:45Z"
+      }
+    ]
+  },
+  "onchain": null,
+  "x": null,
+  "reddit": null,
+  "receipts": [],
+  "budget": null,
+  "funding": null,
+  "errors": []
+}

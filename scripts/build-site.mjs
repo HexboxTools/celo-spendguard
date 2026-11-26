@@ -145,6 +145,7 @@ npx @celo/buy curl "https://spendguard-scout.liveapps.dev/v1/brief/full?repo=<sp
 <span class="g"># MCP (streamable HTTP), tool traction_brief</span>
 claude mcp add --transport http spendguard-scout https://spendguard-scout.liveapps.dev/mcp</div>
 <p style="font-size:14px;color:var(--mut)">Docs for agents: <a href="https://spendguard-scout.liveapps.dev/llms.txt">llms.txt</a> · <a href="https://spendguard-scout.liveapps.dev/openapi.json">openapi.json</a>. Listed on <a href="https://agent402.tools">agent402.tools</a> and <a href="https://402index.io">402index.io</a>. Full-brief payments go to the agent's spending key <code>0xB1809549…95ad</code>, so a caller's payment funds the data bought for their brief; the SpendPolicy daily cap still applies. Settlement txs are sent by the agent wallet and carry the ERC-8021 tag.</p>
+<p><b>Used it?</b> Leave onchain feedback for agent #10134 in Celo's ERC-8004 Reputation Registry, for example from <a href="https://www.8004scan.io/agents/celo/10134">8004scan</a>, or open an <a href="https://github.com/HexboxTools/celo-spendguard/issues">issue</a>.</p>
 <h3>Outside requests so far</h3>
 <div id="reqs"><p style="color:var(--mut)">Loading the live log from <a href="https://spendguard-scout.liveapps.dev/requests">https://spendguard-scout.liveapps.dev/requests</a>…</p></div>
 <script>
