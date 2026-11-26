@@ -40,7 +40,7 @@ export function parseInput(q) {
   const project = String(q.project || q.name || (r ? r.repo : "")).trim().slice(0, 60);
   if (!r && !project) return { error: "give repo=owner/name (or a GitHub URL), and optionally project=Name" };
   if (project && !/^[\p{L}\p{N} .,'&+_#@-]{1,60}$/u.test(project)) return { error: "project: letters, digits, spaces and . , ' & + _ # @ - only (max 60)" };
-  return { repo: r ? `${r.owner}/${r.repo}` : null, project, by: cleanHandle(q.by || q.handle), query: q.query ? String(q.query).slice(0, 80) : undefined, address: /^0x[0-9a-fA-F]{40}$/.test(String(q.address || "")) ? q.address : undefined };
+  return { repo: r ? `${r.owner}/${r.repo}` : null, project, defaultName: !q.project && !q.name && !q.query, by: cleanHandle(q.by || q.handle), query: q.query ? String(q.query).slice(0, 80) : undefined, address: /^0x[0-9a-fA-F]{40}$/.test(String(q.address || "")) ? q.address : undefined };
 }
 
 class Limiter {
@@ -111,7 +111,7 @@ export function createScoutService({
     return { report, entry };
   }
 
-  const markdownOf = (report, entry) => toMarkdown(report, network) + `\nRequest \`${entry.id}\` logged at ${publicBase()}/requests${entry.tier === "free" ? `\n\nFree brief = GitHub + Hacker News. The full brief (${(Number(price) / 1e6).toFixed(2)} USD over x402 on Celo) adds X/YouTube and Reddit: \`npx @celo/buy curl "${publicBase()}/v1/brief/full?repo=${report.repo ? encodeURIComponent(String(report.repo).replace("https://github.com/", "")) : ""}"\`` : ""}\n`;
+  const markdownOf = (report, entry, inp = {}) => toMarkdown(report, network) + (inp.defaultName ? `\n> Searched Hacker News for the repo name "${report.project}". If that is a common word, matches may be about something else: add &project=<distinct name> or &query=<terms>.\n` : "") + `\nRequest \`${entry.id}\` logged at ${publicBase()}/requests${entry.tier === "free" ? `\n\nFree brief = GitHub + Hacker News. The full brief (${(Number(price) / 1e6).toFixed(2)} USD over x402 on Celo) adds X/YouTube and Reddit: \`npx @celo/buy curl "${publicBase()}/v1/brief/full?repo=${report.repo ? encodeURIComponent(String(report.repo).replace("https://github.com/", "")) : ""}"\`` : ""}\n`;
 
   function send(res, status, body, headers = {}) {
     const isStr = typeof body === "string";
@@ -127,7 +127,7 @@ export function createScoutService({
     if (!ctx.self && (!ipLimit.take(ctx.ipHash) || !dayLimit.take("all"))) return send(res, 429, { error: "free tier limit: 6 briefs an hour per caller, 200 a day overall. Try later, or use the paid full brief." });
     try {
       const { report, entry } = await freeBrief(inp, ctx);
-      return wantsJson(req, q) ? send(res, 200, { request: entry.id, tier: "free", report, markdown: markdownOf(report, entry) }) : send(res, 200, markdownOf(report, entry));
+      return wantsJson(req, q) ? send(res, 200, { request: entry.id, tier: "free", report, markdown: markdownOf(report, entry, inp) }) : send(res, 200, markdownOf(report, entry, inp));
     } catch (e) { return send(res, 502, { error: `brief failed: ${String(e.message).slice(0, 200)}` }); }
   }
 
@@ -166,7 +166,7 @@ export function createScoutService({
       const entry = record({ id: crypto.randomUUID().slice(0, 8), tier: "full", via: "x402", project: inp.project, repo: inp.repo, by: inp.by, score: report?.score.total ?? null, payer: s.payer || v.payer || acc.payer || null, asset: match.asset, amount: match.amount, tx: s.transaction, dataBill: report?.receipts?.map((r) => ({ source: r.source, amount: r.amount, tx: r.tx })) || [], self: ctx.self || undefined, ipHash: ctx.ipHash, ua: ctx.ua, error: err || undefined, report: report?.files ? `${outDir}/${report.files[1]}` : null });
       const settleHdr = b64({ success: true, transaction: s.transaction, network: network.caip2, payer: entry.payer });
       if (!report) return { status: 200, headers: { "PAYMENT-RESPONSE": settleHdr }, body: { request: entry.id, tier: "full", error: `paid ${s.transaction} but the brief failed: ${err}. Open an issue and we refund.` } };
-      return { status: 200, headers: { "PAYMENT-RESPONSE": settleHdr }, body: { request: entry.id, tier: "full", payment: { tx: s.transaction, explorer: `${network.explorer}/tx/${s.transaction}` }, report, markdown: markdownOf(report, entry) } };
+      return { status: 200, headers: { "PAYMENT-RESPONSE": settleHdr }, body: { request: entry.id, tier: "full", payment: { tx: s.transaction, explorer: `${network.explorer}/tx/${s.transaction}` }, report, markdown: markdownOf(report, entry, inp) } };
     });
     paidBusy = run.catch(() => {});
     try { const r = await run; return send(res, r.status, r.body, r.headers || (r.status === 402 ? { "PAYMENT-REQUIRED": b64(r.body) } : {})); }
@@ -190,7 +190,7 @@ export function createScoutService({
       if (inp.error) return reply(msg.id, { content: [{ type: "text", text: inp.error }], isError: true });
       const ctx = { ...who(req), via: "mcp" };
       if (!ctx.self && (!ipLimit.take(ctx.ipHash) || !dayLimit.take("all"))) return reply(msg.id, { content: [{ type: "text", text: "rate limited: 6 briefs an hour per caller" }], isError: true });
-      try { const { report, entry } = await freeBrief(inp, ctx); return reply(msg.id, { content: [{ type: "text", text: markdownOf(report, entry) }], structuredContent: { request: entry.id, score: report.score, github: report.github, hackerNews: report.hackerNews } }); }
+      try { const { report, entry } = await freeBrief(inp, ctx); return reply(msg.id, { content: [{ type: "text", text: markdownOf(report, entry, inp) }], structuredContent: { request: entry.id, score: report.score, github: report.github, hackerNews: report.hackerNews } }); }
       catch (e) { return reply(msg.id, { content: [{ type: "text", text: `brief failed: ${e.message}` }], isError: true }); }
     }
     return fail(msg.id, -32601, "method not found");
