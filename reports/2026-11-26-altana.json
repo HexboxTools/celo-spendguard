@@ -1,0 +1,126 @@
+{
+  "project": "Altana",
+  "query": "Altana",
+  "repo": "https://github.com/altananetwork/altana-sdk",
+  "started": "2026-11-26T00:00:50.364Z",
+  "finished": "2026-11-26T00:01:41.980Z",
+  "network": "celo",
+  "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+  "payerKind": "eoa",
+  "score": {
+    "total": 40,
+    "parts": {
+      "github": 16,
+      "hackerNews": 0,
+      "x": 24,
+      "reddit": 0
+    }
+  },
+  "github": {
+    "url": "https://github.com/altananetwork/altana-sdk",
+    "stars": 4,
+    "forks": 8,
+    "openIssues": 32,
+    "pushedAt": "2026-11-25T08:29:36Z",
+    "createdAt": "2026-07-07T23:44:22Z",
+    "commits30d": 100,
+    "description": "Non-custodial agentic wallet with onchain session key delegation. TypeScript SDK, MCP server, and x402 payments for AI agents on BNB Chain, Ethereum, and Base."
+  },
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "x": {
+    "ok": true,
+    "returned": 20,
+    "keyTerm": "altana",
+    "count": 17,
+    "recent": 17,
+    "views": 1724,
+    "sample": [
+      {
+        "title": "Altana Supply Chain Graph: Map Multi-Tier Supply Chains",
+        "views": 12,
+        "author": "Altana",
+        "published": "6 days ago",
+        "url": "https://www.youtube.com/watch?v=Oy8smQrT0Wo"
+      },
+      {
+        "title": "Altana Network Intelligence: Find Chokepoints in Critical Supply Chains",
+        "views": 13,
+        "author": "Altana",
+        "published": "6 days ago",
+        "url": "https://www.youtube.com/watch?v=qRA9_9-llRc"
+      },
+      {
+        "title": "Altana for Suppliers: Answer Buyer Requests Once, Reuse Them as Product Passports",
+        "views": 11,
+        "author": "Altana",
+        "published": "6 days ago",
+        "url": "https://www.youtube.com/watch?v=mx4GP2W66us"
+      }
+    ],
+    "source": "youtube",
+    "xError": "{\"error\":\"provider_error\",\"providerStatus\":400,\"paymentSettled\":false,\"retryable\":false,\"correlationId\":\"cceebee445b4\"}"
+  },
+  "reddit": {
+    "ok": true,
+    "returned": 7,
+    "keyTerm": "altana",
+    "count": 0,
+    "score": 0,
+    "comments": 0,
+    "sample": []
+  },
+  "receipts": [
+    {
+      "at": "2026-11-26T00:01:33.144Z",
+      "day": "2026-11-26",
+      "network": "eip155:42220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/youtube/videos/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0xcebA9300f2b948710d2653dD7B07f33A8B32118C",
+      "amount": "5000",
+      "tx": "0x124f7d9cca9b0ccd9698b4b303c7630c174c11367e6e277dde3005c949d4809d",
+      "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+      "rail": "eoa-eip3009",
+      "source": "youtube.videos.search",
+      "query": "Altana"
+    },
+    {
+      "at": "2026-11-26T00:01:41.971Z",
+      "day": "2026-11-26",
+      "network": "eip155:42220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/reddit/posts/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0xcebA9300f2b948710d2653dD7B07f33A8B32118C",
+      "amount": "5000",
+      "tx": "0xbb2bd8a6a2276dd7595b3fe0a8e0df8250ee4fb18b50ce6b7c67d1175183ad32",
+      "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+      "rail": "eoa-eip3009",
+      "source": "reddit.posts.search",
+      "query": "Altana"
+    }
+  ],
+  "budget": {
+    "network": "eip155:42220",
+    "payments": 12,
+    "refusals": 1,
+    "totalAtomic": "60000",
+    "spentTodayAtomic": "10000",
+    "dailyCapAtomic": "50000",
+    "maxPerCallAtomic": "10000"
+  },
+  "errors": [],
+  "funding": {
+    "rail": "altana-session",
+    "from": "0xC17733165C47f80E56b1c6eD61E8988296CA8f82",
+    "amount": "25000",
+    "tx": "0xb460d2bd872edc4d19c1f85e63adc174564439cabe66ac01141b0b8d3f1c0227"
+  }
+}

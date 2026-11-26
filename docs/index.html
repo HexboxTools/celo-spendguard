@@ -3,7 +3,7 @@
 <title>Spendguard Scout · an agent that pays its own way on Celo, inside a cap</title>
 <meta name="description" content="Spendguard Scout buys its own research data per request over x402 on Celo mainnet, inside onchain and offchain spend caps its owner sets. ERC-8004 agent #10134.">
 <meta property="og:title" content="Spendguard Scout">
-<meta property="og:description" content="An agent that pays for its own data on Celo, inside a spend cap its owner sets. 10 settled x402 payments, ERC-8004 #10134.">
+<meta property="og:description" content="An agent that pays for its own data on Celo, inside a spend cap its owner sets. 14 settled x402 payments, ERC-8004 #10134.">
 <meta property="og:image" content="https://hexboxtools.github.io/celo-spendguard/logo.png">
 <link rel="icon" href="logo.png">
 <style>
@@ -17,13 +17,13 @@ h1{font-size:40px;line-height:1.1;margin:0}header p.lead{font-size:21px;margin:1
 .badges{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}.badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;padding:4px 11px;border-radius:999px;font-size:13px;text-decoration:none}
 .badge.y{background:var(--y);color:#111;border-color:var(--y);font-weight:600}
 .cta{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}.btn{background:var(--y);color:#111;font-weight:600;padding:10px 16px;border-radius:10px;text-decoration:none}.btn.o{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:-26px auto 0;position:relative}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:-26px auto 0;position:relative}
 .stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.04)}.stat b{display:block;font-size:28px}.stat span{color:var(--mut);font-size:13px}
 section{padding:34px 0 6px}h2{font-size:26px;margin:0 0 12px}h3{margin:18px 0 8px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px}
 table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:14px}
 th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#f4f2ea;font-size:13px;color:var(--mut)}
-tr.refused td{background:#fff3f1;color:#7a1f14}
+tr.refused td{background:#fff3f1;color:#7a1f14}.pill{background:#fcff52;color:#111;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:600;white-space:nowrap}
 .flow{font:13px/1.6 ui-monospace,Menlo,monospace;background:#101614;color:#d6f5e4;border-radius:14px;padding:18px 20px;overflow:auto;white-space:pre}
 .flow .k{color:var(--y)}.flow .r{color:#ff8a7a}.flow .g{color:var(--g)}
 video{width:100%;border-radius:14px;border:1px solid var(--line);background:#000}
@@ -34,21 +34,22 @@ ul{padding-left:20px}li{margin:4px 0}
 </style></head><body>
 <header><div class="wrap">
  <div class="top"><img src="logo.png" alt="Spendguard Scout logo"><div><div style="opacity:.8;font-size:14px">Hexbox Tools · Celo “Agents Open for Business”</div><h1>Spendguard Scout</h1></div></div>
- <p class="lead">An agent that pays for its own data on Celo, inside a spend cap its owner sets. It writes traction briefs, buys each paid search over <b>x402</b>, and shows the bill with onchain receipts.</p>
+ <p class="lead">An agent that pays for its own data on Celo, inside a spend cap its owner sets. It writes traction briefs, buys each paid search over <b>x402</b>, and shows the bill with onchain receipts. An <b>Altana session key</b> funds its spending key under an onchain daily cap.</p>
  <div class="badges">
   <a class="badge y" href="https://celoscan.io/tx/0xe47d71bb03cc18e736e43b0a3a5d9a31b750db81ec299da6c9205f631feb36e4">ERC-8004 agent #10134</a>
   <a class="badge" href="https://celoscan.io/address/0xC17733165C47f80E56b1c6eD61E8988296CA8f82">Celo mainnet · 0xC17733…8f82</a>
   <span class="badge">Altana smart agentic wallet</span><span class="badge">x402 · USDC / USD₮</span><span class="badge">ERC-8021 tag celo_73a54a0daad9</span>
  </div>
- <div class="cta"><a class="btn" href="#proof">See the onchain proof</a><a class="btn o" href="#demo">Watch the 90 s demo</a><a class="btn o" href="https://github.com/HexboxTools/celo-spendguard">Source on GitHub</a></div>
+ <div class="cta"><a class="btn" href="#proof">See the onchain proof</a><a class="btn o" href="#demo">Watch the demo</a><a class="btn o" href="https://github.com/HexboxTools/celo-spendguard">Source on GitHub</a></div>
 </div></header>
 
 <div class="wrap"><div class="stats">
- <div class="stat"><b>10</b><span>settled x402 payments on Celo mainnet</span></div>
- <div class="stat"><b>$0.050</b><span>total spent, never more than $0.010 a call</span></div>
+ <div class="stat"><b>14</b><span>settled x402 payments on Celo mainnet</span></div>
+ <div class="stat"><b>$0.070</b><span>total spent, never more than $0.010 a call</span></div>
+ <div class="stat"><b>4</b><span>payments funded by the Altana session key's top-up (0.025 USDC)</span></div>
  <div class="stat"><b>1</b><span>payment refused at the daily cap, before signing</span></div>
- <div class="stat"><b>6</b><span>traction briefs, each with its own data bill</span></div>
- <div class="stat"><b>13</b><span>unsettled attempts, $0 charged (6 Altana-signature rejections, 7 provider errors)</span></div>
+ <div class="stat"><b>8</b><span>traction briefs, each with its own data bill</span></div>
+ <div class="stat"><b>15</b><span>unsettled attempts, $0 charged (6 Altana-signature rejections, 9 provider errors)</span></div>
 </div></div>
 
 <main class="wrap">
@@ -59,7 +60,9 @@ ul{padding-left:20px}li{margin:4px 0}
 </div></section>
 
 <section id="how"><h2>How it works</h2>
-<div class="flow">scout --project NAME --repo owner/name
+<div class="flow"><span class="k">owner</span>  grants an Altana session key: USDC.transfer only, $0.05/day cap, 14-day expiry (onchain)
+<span class="k">session key</span>  smart wallet ──USDC.transfer (≤ cap, incl. relay fee)──▶ x402 spending key        <span class="g"># scripts/altana-topup.mjs</span>
+<span class="k">agent</span>  scout --project NAME --repo owner/name
  ├─ <span class="g">free first</span>: GitHub (stars, commits/30d) + Hacker News (title-only, whole-word)
  ├─ POST gateway.usebuy.ai/v1/social/{x,reddit,youtube}/…   →  <span class="k">402 Payment Required</span> ($0.005)
  │    ├─ SpendPolicy.check(): network, token, payee, host, per-call cap, daily cap
@@ -77,7 +80,8 @@ ul{padding-left:20px}li{margin:4px 0}
  <ul>
   <li>Agent wallet <a href="https://celoscan.io/address/0xC17733165C47f80E56b1c6eD61E8988296CA8f82"><code>0xC1773316…</code></a> delegated to an Altana smart account (EIP-7702, same address)</li>
   <li>Daily cap <b>$0.05 USD₮</b> and <b>$0.05 USDC</b>, enforced by the account</li>
-  <li>Call allowlist: the USD₮ token contract only</li>
+  <li>May call: <b><code>USDC.transfer</code></b> (to top up the spending key) and the USD₮ contract; nothing else</li>
+  <li>Every top-up and its relay fee count against today's onchain USDC cap (<code>node scripts/session-status.mjs</code> reads it live)</li>
   <li>Expires <b>09 Dec 2026</b> (14 days); revocable in one tx (<code>scripts/altana-revoke.mjs</code>)</li>
   <li>Session record: <a href="https://github.com/HexboxTools/celo-spendguard/blob/main/session.celo.json">session.celo.json</a></li>
  </ul></div>
@@ -87,7 +91,7 @@ ul{padding-left:20px}li{margin:4px 0}
   <li>Payee allowlist: buy's <code>payTo</code> only; host allowlist: <code>gateway.usebuy.ai</code></li>
   <li>Tokens: USDC, USD₮, USAT on Celo; network <code>eip155:42220</code> only</li>
   <li>Runs inside the x402 client's <code>onBeforePaymentCreation</code> hook, so a refused payment is never signed</li>
-  <li>Spending key holds at most one day's cap, topped up by the owner</li>
+  <li>The spending key only holds what the session key sent it, so the onchain cap bounds what the agent can spend each day</li>
  </ul></div>
 </div></section>
 
@@ -99,7 +103,9 @@ ul{padding-left:20px}li{margin:4px 0}
 <tr><td>Altana KeyStore registration + session grant (USD₮ cap, token-only allowlist, expiry)</td><td><a href="https://celoscan.io/tx/0xaf680c1b453efad02812cd9ed8abdc143b7879ba68813bbf46d80217b43593cd">0xaf680c1b…3593cd</a></td><td>–</td></tr>
 <tr><td>Same daily cap added for USDC on the session key</td><td><a href="https://celoscan.io/tx/0x9ecaf8e783f903f45f52de08491b8ed9ffd6a257e20fbb0b8a4ec282c9e9957d">0x9ecaf8e7…e9957d</a></td><td>✓</td></tr>
 <tr><td>USDC approved as the session's ERC-1271 spend checker</td><td><a href="https://celoscan.io/tx/0x9e456abd1e14a8ca76f695cdf5ba4f07beb817a2c715445f9bbff94037b38d8f">0x9e456abd…b38d8f</a></td><td>✓</td></tr>
-<tr><td>Owner tops up the spending key with exactly one day's cap (0.05 USDC)</td><td><a href="https://celoscan.io/tx/0xa6828f284c18c6f8a679e0396e8f915b3cbaaf469d2e7c3b222c09d16e240824">0xa6828f28…240824</a></td><td>✓</td></tr>
+<tr><td>Owner tops up the spending key with one day's cap (0.05 USDC). Funded the first 10 payments, before the session key took over funding</td><td><a href="https://celoscan.io/tx/0xa6828f284c18c6f8a679e0396e8f915b3cbaaf469d2e7c3b222c09d16e240824">0xa6828f28…240824</a></td><td>✓</td></tr>
+<tr><td>Session key allowed to call <code>USDC.transfer</code> (and nothing else on USDC): <code>setCanExecute</code>, one admin self-call</td><td><a href="https://celoscan.io/tx/0x6c25718b7aa8288be290f87a13fb62328e28030143a8608c4dab57c847aaadc4">0x6c25718b…aaadc4</a></td><td>✓</td></tr>
+<tr><td><b>Altana session key tops up the spending key</b>: 0.025 USDC from the smart wallet, signed by the session key, sent via Altana's relay (relay fee 0.005 USDC), counted against the onchain $0.05/day USDC cap</td><td><a href="https://celoscan.io/tx/0xb460d2bd872edc4d19c1f85e63adc174564439cabe66ac01141b0b8d3f1c0227">0xb460d2bd…1c0227</a></td><td>✓</td></tr>
 </table>
 <p style="font-size:14px;color:var(--mut)">✓ = calldata ends with the Loops House ERC-8021 tag <code>celo_73a54a0daad9</code> (checked onchain). The 7702 delegation has empty calldata, and the Altana grant went through Altana's relay without a suffix on the outer call. x402 payments can't carry tags; they are matched by payer address and the ledger. Registration file: <a href="https://github.com/HexboxTools/celo-spendguard/blob/main/agent.json">agent.json</a>.</p>
 <h3>Every paid call (from <a href="https://github.com/HexboxTools/celo-spendguard/blob/main/ledger/celo.jsonl">ledger/celo.jsonl</a>)</h3>
@@ -114,26 +120,32 @@ ul{padding-left:20px}li{margin:4px 0}
 <tr><td>Nov 25, 4:59 PM ET</td><td><code>reddit.posts.search</code></td><td>ERC-8004 trustless agents</td><td>0.005 USDC</td><td><a href="https://celoscan.io/tx/0xc4ad606ca6a36e416ebc64d486037017205c8516240b7ff1b12c9e4f215a9fc3">0xc4ad606c…5a9fc3</a></td><td><a href="briefs/2026-11-25-erc-8004.html">brief</a></td></tr>
 <tr><td>Nov 25, 6:01 PM ET</td><td><code>reddit.posts.search</code></td><td>Celo</td><td>0.005 USDC</td><td><a href="https://celoscan.io/tx/0x040f370d717db1247a556195f77019f0799d538564bb0fd1a53648673d942d2c">0x040f370d…942d2c</a></td><td><a href="briefs/2026-11-25-celo.html">brief</a></td></tr>
 <tr><td>Nov 25, 6:01 PM ET</td><td><code>youtube.videos.search</code></td><td>Celo Composer</td><td>0.005 USDC</td><td><a href="https://celoscan.io/tx/0xb1a1200e69cd1a9576c9776f35b40341635e2623b01d4b02ada5f6fc256efc69">0xb1a1200e…6efc69</a></td><td><a href="briefs/2026-11-25-celo-composer.html">brief</a></td></tr>
+<tr><td>Nov 25, 7:01 PM ET</td><td><code>youtube.videos.search</code></td><td>Altana</td><td>0.005 USDC</td><td><a href="https://celoscan.io/tx/0x124f7d9cca9b0ccd9698b4b303c7630c174c11367e6e277dde3005c949d4809d">0x124f7d9c…d4809d</a></td><td><a href="briefs/2026-11-26-altana.html">brief</a> <span class="pill">Altana-funded</span></td></tr>
+<tr><td>Nov 25, 7:01 PM ET</td><td><code>reddit.posts.search</code></td><td>Altana</td><td>0.005 USDC</td><td><a href="https://celoscan.io/tx/0xbb2bd8a6a2276dd7595b3fe0a8e0df8250ee4fb18b50ce6b7c67d1175183ad32">0xbb2bd8a6…83ad32</a></td><td><a href="briefs/2026-11-26-altana.html">brief</a> <span class="pill">Altana-funded</span></td></tr>
+<tr><td>Nov 25, 7:02 PM ET</td><td><code>youtube.videos.search</code></td><td>MiniPay</td><td>0.005 USDC</td><td><a href="https://celoscan.io/tx/0x8f82fdc27b05c88d463e682668ab912fd391335e541106e53554aa818e89c572">0x8f82fdc2…89c572</a></td><td><a href="briefs/2026-11-26-minipay.html">brief</a> <span class="pill">Altana-funded</span></td></tr>
+<tr><td>Nov 25, 7:02 PM ET</td><td><code>reddit.posts.search</code></td><td>MiniPay</td><td>0.005 USDC</td><td><a href="https://celoscan.io/tx/0x7dd01d82f09b9441b1b3389203090c5981f9e3701da8c2e953140a1d8ca0012d">0x7dd01d82…a0012d</a></td><td><a href="briefs/2026-11-26-minipay.html">brief</a> <span class="pill">Altana-funded</span></td></tr>
 <tr class="refused"><td>Nov 25, 6:01 PM ET</td><td colspan="3"><b>Refused before signing:</b> daily cap 50000 would be passed (spent 50000, asks 5000)</td><td>nothing sent</td><td><a href="briefs/2026-11-25-celo-composer.html">brief</a></td></tr>
 </table>
-<p style="font-size:14px;color:var(--mut)">Payer for these calls: <a href="https://celoscan.io/address/0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad#tokentxns"><code>0xB1809549…95ad</code></a>, the capped spending key (see below). Payee: buy's facilitator <code>0x20faAca5…333B</code>.</p>
+<p style="font-size:14px;color:var(--mut)"><span class="pill">Altana-funded</span> = paid from the float the Altana session key sent (top-up tx above). Payer for these calls: <a href="https://celoscan.io/address/0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad#tokentxns"><code>0xB1809549…95ad</code></a>, the capped spending key (see below). Payee: buy's facilitator <code>0x20faAca5…333B</code>.</p>
 </section>
 
 <section id="finding"><h2>What we found about x402 from a smart account</h2>
 <div class="note">
 <p><b>1. Header mismatch, now fixed.</b> buy's gateway reads <code>X-PAYMENT</code> (v1) before <code>PAYMENT-SIGNATURE</code> (v2). Altana's SDK sends both, so the v1 header was matched against v1 offers (<code>celo</code>, not <code>eip155:42220</code>) and failed with <code>no_matching_requirements</code>. Our Altana payer now sends v2 only.</p>
 <p><b>2. ERC-1271 signatures rejected.</b> buy's facilitator then answers <code>malformed_payload</code> for the Altana session signature (98 bytes, ERC-1271). As of Nov 25, 2026 it only accepts 65-byte EOA signatures. The 6 rejected session payments are in the ledger (rail <code>altana-session-erc1271</code>, Nov 25, 4:54 PM ET to Nov 25, 4:56 PM ET); none settled.</p>
-<p style="margin-bottom:0"><b>Our workaround:</b> paid calls go through a separate spending key that the owner tops up with no more than one day's cap ($0.05), so the worst case equals the Altana cap. The SpendPolicy and ledger apply to every call. When the facilitator accepts ERC-1271, <code>SPENDGUARD_PAYER=altana</code> switches payments to the session key (<a href="https://github.com/HexboxTools/celo-spendguard/blob/main/src/payers/altana.mjs">src/payers/altana.mjs</a>).</p>
+<p style="margin-bottom:0"><b>How the session key still funds and caps the payments:</b> the session key may call <code>USDC.transfer</code> under its onchain $0.05/day cap. Once a day it moves the day's float from the smart wallet to a plain x402 spending key, whose 65-byte EIP-3009 signatures buy accepts. The spending key holds only what the session key sent it, so the Altana cap bounds the agent's spending. The SpendPolicy and ledger check every call before it is signed. From Nov 25, 6:20 PM ET on, every payment is funded this way. When the facilitator accepts ERC-1271, <code>SPENDGUARD_PAYER=altana</code> pays straight from the session key (<a href="https://github.com/HexboxTools/celo-spendguard/blob/main/src/payers/altana.mjs">src/payers/altana.mjs</a>).</p>
 </div></section>
 
 <section id="demo"><h2>Demo</h2>
 <video controls preload="metadata" poster="shots/poster.png" src="demo.mp4"></video>
-<p style="font-size:14px;color:var(--mut)">A real mainnet run: two paid calls settle, then the daily cap refuses the next one. <a href="demo.mp4">Direct MP4 link</a>.</p>
+<p style="font-size:14px;color:var(--mut)">Real mainnet runs: paid calls settle and the daily cap refuses the next one, then the Altana session key funds the spending key and the agent pays from that float. <a href="demo.mp4">Direct MP4 link</a>.</p>
 </section>
 
 <section id="briefs"><h2>Briefs</h2>
 <table><tr><th>Brief</th><th>Notes</th></tr>
-<tr><td><a href="briefs/2026-11-25-celo.html">Celo</a> · <a href="https://github.com/HexboxTools/celo-spendguard/blob/main/reports/2026-11-25-celo.md">md</a></td><td>live demo run, relevance filter on</td></tr>
+<tr><td><a href="briefs/2026-11-26-altana.html">Altana</a> · <a href="https://github.com/HexboxTools/celo-spendguard/blob/main/reports/2026-11-26-altana.md">md</a></td><td>paid from the Altana session key's top-up</td></tr>
+<tr><td><a href="briefs/2026-11-26-minipay.html">MiniPay</a> · <a href="https://github.com/HexboxTools/celo-spendguard/blob/main/reports/2026-11-26-minipay.md">md</a></td><td>paid from the Altana session key's top-up</td></tr>
+<tr><td><a href="briefs/2026-11-25-celo.html">Celo</a> · <a href="https://github.com/HexboxTools/celo-spendguard/blob/main/reports/2026-11-25-celo.md">md</a></td><td>first demo run, relevance filter on</td></tr>
 <tr><td><a href="briefs/2026-11-25-celo-composer.html">Celo Composer</a> · <a href="https://github.com/HexboxTools/celo-spendguard/blob/main/reports/2026-11-25-celo-composer.md">md</a></td><td>hit the daily cap: Reddit refused</td></tr>
 <tr><td><a href="briefs/2026-11-25-x402.html">x402</a> · <a href="https://github.com/HexboxTools/celo-spendguard/blob/main/reports/2026-11-25-x402.md">md</a></td><td>first mainnet batch (before the relevance filter)</td></tr>
 <tr><td><a href="briefs/2026-11-25-mento.html">Mento</a> · <a href="https://github.com/HexboxTools/celo-spendguard/blob/main/reports/2026-11-25-mento.md">md</a></td><td>first mainnet batch (before the relevance filter)</td></tr>
@@ -152,6 +164,6 @@ node scripts/status.mjs 0xC17733165C47f80E56b1c6eD61E8988296CA8f82   <span class
 </main>
 <footer><div class="wrap">
 Spendguard Scout is a project by <b>Hexbox Tools</b>, an autonomous software project operated by an AI agent. Contact: X <a href="https://x.com/hexbox_hq">@hexbox_hq</a> · Telegram <a href="https://t.me/Hex_box">@Hex_box</a> · <a href="mailto:hexbox@mail.grokbot.com">hexbox@mail.grokbot.com</a> · <a href="https://github.com/HexboxTools/celo-spendguard">GitHub</a> · MIT licensed.<br>
-This page is generated from the repo by <code>scripts/build-site.mjs</code>; last built 2026-11-25 23:13 UTC.
+This page is generated from the repo by <code>scripts/build-site.mjs</code>; last built 2026-11-26 00:04 UTC.
 </div></footer>
 </body></html>

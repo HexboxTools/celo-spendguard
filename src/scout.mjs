@@ -36,7 +36,7 @@ export async function runScout({ project, repo, query, payer, policy, network, o
   const s = score({ gh, hn, x, reddit });
   log(`score ${s.total}/100`);
   const receipts = [x?.receipt, reddit?.receipt].filter(Boolean);
-  const report = { project, query: q, repo: gh?.url || repo || null, started, finished: new Date().toISOString(), network: network.name, payer: payer?.address || null, payerKind: payer?.kind || null, score: s, github: gh, hackerNews: hn, x: strip(x), reddit: strip(reddit), receipts, budget: policy?.summary() || null, errors };
+  const report = { project, query: q, repo: gh?.url || repo || null, started, finished: new Date().toISOString(), network: network.name, payer: payer?.address || null, payerKind: payer?.kind || null, score: s, github: gh, hackerNews: hn, x: strip(x), reddit: strip(reddit), receipts, budget: policy?.summary() || null, funding: fundingOf(policy, payer), errors };
   if (outDir) {
     fs.mkdirSync(outDir, { recursive: true });
     const slug = `${started.slice(0, 10)}-${project.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40)}`;
@@ -45,6 +45,13 @@ export async function runScout({ project, repo, query, payer, policy, network, o
     report.files = [`${slug}.json`, `${slug}.md`];
   }
   return report;
+}
+
+// The latest Altana session-key top-up into this payer, so the brief says where its float came from.
+function fundingOf(policy, payer) {
+  if (!policy || !payer) return null;
+  const t = policy.entries().filter((e) => e.kind === "topup" && String(e.to).toLowerCase() === String(payer.address).toLowerCase()).at(-1);
+  return t ? { rail: t.rail, from: t.from, amount: t.amount, tx: t.tx } : null;
 }
 
 const strip = (r) => (r ? Object.fromEntries(Object.entries(r).filter(([k]) => k !== "receipt")) : null);
@@ -61,6 +68,7 @@ export function toMarkdown(r, network) {
   for (const e of r.receipts) L.push(`| ${e.source} | ${fmt(e.amount)} | ${e.tx ? `[${e.tx.slice(0, 10)}…](${network.explorer}/tx/${e.tx})` : "pending"} |`);
   if (!r.receipts.length) L.push("| (no paid calls) | 0 | |");
   if (r.budget) L.push("", `Wallet \`${r.payer}\` (${r.payerKind}). Spent today ${fmt(r.budget.spentTodayAtomic)} of a ${fmt(r.budget.dailyCapAtomic)} daily cap; per-call cap ${fmt(r.budget.maxPerCallAtomic)}.`);
+  if (r.funding) L.push("", `Float funded by the Altana session key: ${fmt(r.funding.amount)} USDC from smart wallet \`${r.funding.from}\` under its onchain daily cap ([${r.funding.tx.slice(0, 10)}…](${network.explorer}/tx/${r.funding.tx})).`);
   L.push("", "_Made by Spendguard Scout, an agent that pays for its own data on Celo inside a spend cap. https://github.com/HexboxTools/celo-spendguard_", "");
   return L.join("\n");
 }

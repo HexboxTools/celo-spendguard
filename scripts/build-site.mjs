@@ -12,33 +12,43 @@ const paid = ledger.filter((e) => e.kind === "paid");
 const refused = ledger.filter((e) => e.kind === "refused");
 const failed = ledger.filter((e) => e.kind === "failed");
 const altanaRejected = failed.filter((e) => String(e.rail).startsWith("altana"));
+const topups = ledger.filter((e) => e.kind === "topup" && e.rail === "altana-session");
+const firstTopup = topups[0]?.at || "9999";
+const altanaFunded = paid.filter((e) => e.at > firstTopup);
+const topupTotal = topups.reduce((s, e) => s + BigInt(e.amount), 0n);
+const topupFees = topups.reduce((s, e) => s + BigInt(e.fee || 0), 0n);
 const usd = (a) => (Number(a) / 1e6).toFixed(3);
 const total = paid.reduce((s, e) => s + BigInt(e.amount), 0n);
 const short = (h) => `${h.slice(0, 10)}…${h.slice(-6)}`;
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const tok = { "0xceba9300f2b948710d2653dd7b07f33a8b32118c": "USDC", "0x48065fbbe25f71c9282ddf5e1cd6d6a887483d5e": "USD₮" };
 const et = (iso) => new Date(iso).toLocaleString("en-US", { timeZone: "America/Toronto", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) + " ET";
-const briefOf = (q) => ({ "x402 payments": "x402", "Mento stablecoin": "mento", "Self protocol zk passport": "self", "ERC-8004 trustless agents": "erc-8004", Celo: "celo", "Celo Composer": "celo-composer" }[q]);
+const briefSlug = (e) => `${e.day}-${briefOf(e.query)}`;
+const briefOf = (q) => ({ "x402 payments": "x402", "Mento stablecoin": "mento", "Self protocol zk passport": "self", "ERC-8004 trustless agents": "erc-8004", Celo: "celo", "Celo Composer": "celo-composer", Altana: "altana", MiniPay: "minipay" }[q]);
 const expiry = new Date(session.expiry * 1000);
 
-const TAGGED = new Set(["0xe47d71bb03cc18e736e43b0a3a5d9a31b750db81ec299da6c9205f631feb36e4", "0x9ecaf8e783f903f45f52de08491b8ed9ffd6a257e20fbb0b8a4ec282c9e9957d", "0x9e456abd1e14a8ca76f695cdf5ba4f07beb817a2c715445f9bbff94037b38d8f", "0xa6828f284c18c6f8a679e0396e8f915b3cbaaf469d2e7c3b222c09d16e240824"]);
+const TAGGED = new Set(["0x6c25718b7aa8288be290f87a13fb62328e28030143a8608c4dab57c847aaadc4", ...topups.map((t) => t.tx), "0xe47d71bb03cc18e736e43b0a3a5d9a31b750db81ec299da6c9205f631feb36e4", "0x9ecaf8e783f903f45f52de08491b8ed9ffd6a257e20fbb0b8a4ec282c9e9957d", "0x9e456abd1e14a8ca76f695cdf5ba4f07beb817a2c715445f9bbff94037b38d8f", "0xa6828f284c18c6f8a679e0396e8f915b3cbaaf469d2e7c3b222c09d16e240824"]);
 const setup = [
   ["ERC-8004 identity: agentId " + reg.agentId + " in Celo's Identity Registry", reg.tx],
   ["EIP-7702 delegation of the agent wallet to the Altana smart account", "0x6eb06f8cac72baf41947c3a483f9b77c2f638bc1856f21bf5c117b01f01fea6f"],
   ["Altana KeyStore registration + session grant (USD₮ cap, token-only allowlist, expiry)", "0xaf680c1b453efad02812cd9ed8abdc143b7879ba68813bbf46d80217b43593cd"],
   ["Same daily cap added for USDC on the session key", "0x9ecaf8e783f903f45f52de08491b8ed9ffd6a257e20fbb0b8a4ec282c9e9957d"],
   ["USDC approved as the session's ERC-1271 spend checker", "0x9e456abd1e14a8ca76f695cdf5ba4f07beb817a2c715445f9bbff94037b38d8f"],
-  ["Owner tops up the spending key with exactly one day's cap (0.05 USDC)", "0xa6828f284c18c6f8a679e0396e8f915b3cbaaf469d2e7c3b222c09d16e240824"],
+  ["Owner tops up the spending key with one day's cap (0.05 USDC). Funded the first 10 payments, before the session key took over funding", "0xa6828f284c18c6f8a679e0396e8f915b3cbaaf469d2e7c3b222c09d16e240824"],
+  ["Session key allowed to call <code>USDC.transfer</code> (and nothing else on USDC): <code>setCanExecute</code>, one admin self-call", "0x6c25718b7aa8288be290f87a13fb62328e28030143a8608c4dab57c847aaadc4"],
+  ...topups.map((t) => [`<b>Altana session key tops up the spending key</b>: ${usd(t.amount)} USDC from the smart wallet, signed by the session key, sent via Altana's relay (relay fee ${usd(t.fee)} USDC), counted against the onchain $0.05/day USDC cap`, t.tx]),
 ];
 
 const briefs = [
-  ["celo", "Celo", "live demo run, relevance filter on"],
-  ["celo-composer", "Celo Composer", "hit the daily cap: Reddit refused"],
-  ["x402", "x402", ""], ["mento", "Mento", ""], ["self", "Self", ""], ["erc-8004", "ERC-8004", ""],
-];
+  ["2026-11-26-altana", "Altana", "paid from the Altana session key's top-up"],
+  ["2026-11-26-minipay", "MiniPay", "paid from the Altana session key's top-up"],
+  ["2026-11-25-celo", "Celo", "first demo run, relevance filter on"],
+  ["2026-11-25-celo-composer", "Celo Composer", "hit the daily cap: Reddit refused"],
+  ["2026-11-25-x402", "x402", ""], ["2026-11-25-mento", "Mento", ""], ["2026-11-25-self", "Self", ""], ["2026-11-25-erc-8004", "ERC-8004", ""],
+].filter(([s]) => fs.existsSync(`reports/${s}.md`));
 
-const payRows = paid.map((e) => `<tr><td>${et(e.at)}</td><td><code>${esc(e.source)}</code></td><td>${esc(e.query)}</td><td>${usd(e.amount)} ${tok[e.asset.toLowerCase()] || ""}</td><td><a href="${SCAN}/tx/${e.tx}">${short(e.tx)}</a></td><td><a href="briefs/2026-11-25-${briefOf(e.query)}.html">brief</a></td></tr>`).join("\n");
-const refRows = refused.map((e) => `<tr class="refused"><td>${et(e.at)}</td><td colspan="3"><b>Refused before signing:</b> ${esc(e.reason)}</td><td>nothing sent</td><td><a href="briefs/2026-11-25-celo-composer.html">brief</a></td></tr>`).join("\n");
+const payRows = paid.map((e) => `<tr><td>${et(e.at)}</td><td><code>${esc(e.source)}</code></td><td>${esc(e.query)}</td><td>${usd(e.amount)} ${tok[e.asset.toLowerCase()] || ""}</td><td><a href="${SCAN}/tx/${e.tx}">${short(e.tx)}</a></td><td><a href="briefs/${briefSlug(e)}.html">brief</a>${e.at > firstTopup ? ' <span class="pill">Altana-funded</span>' : ""}</td></tr>`).join("\n");
+const refRows = refused.map((e) => `<tr class="refused"><td>${et(e.at)}</td><td colspan="3"><b>Refused before signing:</b> ${esc(e.reason)}</td><td>nothing sent</td><td><a href="briefs/${e.day}-celo-composer.html">brief</a></td></tr>`).join("\n");
 
 // Minimal Markdown for the briefs: headings, bullets, tables, quotes, links, bold, italics, code.
 const inline = (t) => esc(t).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/_([^_]+)_$/g, "<i>$1</i>").replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, a, h) => `<a href="${h.replace(/^(2026-[\w-]+)\.md$/, "$1.html")}">${a}</a>`);
@@ -59,8 +69,8 @@ function md(src) {
 }
 fs.mkdirSync("docs/briefs", { recursive: true });
 for (const [slug, name] of briefs) {
-  const src = fs.readFileSync(`reports/2026-11-25-${slug}.md`, "utf8");
-  fs.writeFileSync(`docs/briefs/2026-11-25-${slug}.html`, `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Traction brief: ${esc(name)} · Spendguard Scout</title><link rel="icon" href="../logo.png"><style>body{margin:0;font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#16161a;background:#fcfbf6}.bar{background:#0f3d2e;color:#fff;padding:14px 0}.bar a{color:#fcff52;text-decoration:none;font-weight:600}.w{max-width:860px;margin:0 auto;padding:0 22px}h1{margin:28px 0 10px}a{color:#0b6b48}code{font:13px ui-monospace,Menlo,monospace;background:#f1efe6;padding:1px 5px;border-radius:4px}table{border-collapse:collapse;width:100%;background:#fff;border:1px solid #e6e3d8}th,td{text-align:left;padding:8px 12px;border-bottom:1px solid #e6e3d8}th{background:#f4f2ea}.note{border-left:4px solid #fcff52;background:#fffde3;padding:10px 14px}footer{color:#5b5b66;font-size:14px;margin:30px 0}</style></head><body><div class="bar"><div class="w"><a href="../">← Spendguard Scout</a></div></div><div class="w">${md(src)}<footer>Source: <a href="${REPO}/blob/main/reports/2026-11-25-${slug}.md">reports/2026-11-25-${slug}.md</a> · data: <a href="${REPO}/blob/main/reports/2026-11-25-${slug}.json">JSON</a></footer></div></body></html>\n`);
+  const src = fs.readFileSync(`reports/${slug}.md`, "utf8");
+  fs.writeFileSync(`docs/briefs/${slug}.html`, `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Traction brief: ${esc(name)} · Spendguard Scout</title><link rel="icon" href="../logo.png"><style>body{margin:0;font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#16161a;background:#fcfbf6}.bar{background:#0f3d2e;color:#fff;padding:14px 0}.bar a{color:#fcff52;text-decoration:none;font-weight:600}.w{max-width:860px;margin:0 auto;padding:0 22px}h1{margin:28px 0 10px}a{color:#0b6b48}code{font:13px ui-monospace,Menlo,monospace;background:#f1efe6;padding:1px 5px;border-radius:4px}table{border-collapse:collapse;width:100%;background:#fff;border:1px solid #e6e3d8}th,td{text-align:left;padding:8px 12px;border-bottom:1px solid #e6e3d8}th{background:#f4f2ea}.note{border-left:4px solid #fcff52;background:#fffde3;padding:10px 14px}footer{color:#5b5b66;font-size:14px;margin:30px 0}</style></head><body><div class="bar"><div class="w"><a href="../">← Spendguard Scout</a></div></div><div class="w">${md(src)}<footer>Source: <a href="${REPO}/blob/main/reports/${slug}.md">reports/${slug}.md</a> · data: <a href="${REPO}/blob/main/reports/${slug}.json">JSON</a></footer></div></body></html>\n`);
 }
 
 const html = `<!doctype html>
@@ -82,13 +92,13 @@ h1{font-size:40px;line-height:1.1;margin:0}header p.lead{font-size:21px;margin:1
 .badges{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}.badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;padding:4px 11px;border-radius:999px;font-size:13px;text-decoration:none}
 .badge.y{background:var(--y);color:#111;border-color:var(--y);font-weight:600}
 .cta{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}.btn{background:var(--y);color:#111;font-weight:600;padding:10px 16px;border-radius:10px;text-decoration:none}.btn.o{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:-26px auto 0;position:relative}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:-26px auto 0;position:relative}
 .stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.04)}.stat b{display:block;font-size:28px}.stat span{color:var(--mut);font-size:13px}
 section{padding:34px 0 6px}h2{font-size:26px;margin:0 0 12px}h3{margin:18px 0 8px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px}
 table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:14px}
 th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#f4f2ea;font-size:13px;color:var(--mut)}
-tr.refused td{background:#fff3f1;color:#7a1f14}
+tr.refused td{background:#fff3f1;color:#7a1f14}.pill{background:#fcff52;color:#111;border-radius:999px;padding:1px 8px;font-size:12px;font-weight:600;white-space:nowrap}
 .flow{font:13px/1.6 ui-monospace,Menlo,monospace;background:#101614;color:#d6f5e4;border-radius:14px;padding:18px 20px;overflow:auto;white-space:pre}
 .flow .k{color:var(--y)}.flow .r{color:#ff8a7a}.flow .g{color:var(--g)}
 video{width:100%;border-radius:14px;border:1px solid var(--line);background:#000}
@@ -99,18 +109,19 @@ ul{padding-left:20px}li{margin:4px 0}
 </style></head><body>
 <header><div class="wrap">
  <div class="top"><img src="logo.png" alt="Spendguard Scout logo"><div><div style="opacity:.8;font-size:14px">Hexbox Tools · Celo “Agents Open for Business”</div><h1>Spendguard Scout</h1></div></div>
- <p class="lead">An agent that pays for its own data on Celo, inside a spend cap its owner sets. It writes traction briefs, buys each paid search over <b>x402</b>, and shows the bill with onchain receipts.</p>
+ <p class="lead">An agent that pays for its own data on Celo, inside a spend cap its owner sets. It writes traction briefs, buys each paid search over <b>x402</b>, and shows the bill with onchain receipts. An <b>Altana session key</b> funds its spending key under an onchain daily cap.</p>
  <div class="badges">
   <a class="badge y" href="${SCAN}/tx/${reg.tx}">ERC-8004 agent #${reg.agentId}</a>
   <a class="badge" href="${SCAN}/address/${reg.owner}">Celo mainnet · ${reg.owner.slice(0, 8)}…${reg.owner.slice(-4)}</a>
   <span class="badge">Altana smart agentic wallet</span><span class="badge">x402 · USDC / USD₮</span><span class="badge">ERC-8021 tag celo_73a54a0daad9</span>
  </div>
- <div class="cta"><a class="btn" href="#proof">See the onchain proof</a><a class="btn o" href="#demo">Watch the 90 s demo</a><a class="btn o" href="${REPO}">Source on GitHub</a></div>
+ <div class="cta"><a class="btn" href="#proof">See the onchain proof</a><a class="btn o" href="#demo">Watch the demo</a><a class="btn o" href="${REPO}">Source on GitHub</a></div>
 </div></header>
 
 <div class="wrap"><div class="stats">
  <div class="stat"><b>${paid.length}</b><span>settled x402 payments on Celo mainnet</span></div>
  <div class="stat"><b>$${usd(total)}</b><span>total spent, never more than $0.010 a call</span></div>
+ <div class="stat"><b>${altanaFunded.length}</b><span>payments funded by the Altana session key's top-up (${usd(topupTotal)} USDC)</span></div>
  <div class="stat"><b>${refused.length}</b><span>payment refused at the daily cap, before signing</span></div>
  <div class="stat"><b>${briefs.length}</b><span>traction briefs, each with its own data bill</span></div>
  <div class="stat"><b>${failed.length}</b><span>unsettled attempts, $0 charged (${altanaRejected.length} Altana-signature rejections, ${failed.length - altanaRejected.length} provider errors)</span></div>
@@ -124,7 +135,9 @@ ul{padding-left:20px}li{margin:4px 0}
 </div></section>
 
 <section id="how"><h2>How it works</h2>
-<div class="flow">scout --project NAME --repo owner/name
+<div class="flow"><span class="k">owner</span>  grants an Altana session key: USDC.transfer only, $0.05/day cap, 14-day expiry (onchain)
+<span class="k">session key</span>  smart wallet ──USDC.transfer (≤ cap, incl. relay fee)──▶ x402 spending key        <span class="g"># scripts/altana-topup.mjs</span>
+<span class="k">agent</span>  scout --project NAME --repo owner/name
  ├─ <span class="g">free first</span>: GitHub (stars, commits/30d) + Hacker News (title-only, whole-word)
  ├─ POST gateway.usebuy.ai/v1/social/{x,reddit,youtube}/…   →  <span class="k">402 Payment Required</span> ($0.005)
  │    ├─ SpendPolicy.check(): network, token, payee, host, per-call cap, daily cap
@@ -142,7 +155,8 @@ ul{padding-left:20px}li{margin:4px 0}
  <ul>
   <li>Agent wallet <a href="${SCAN}/address/${session.walletAddress}"><code>${session.walletAddress.slice(0, 10)}…</code></a> delegated to an Altana smart account (EIP-7702, same address)</li>
   <li>Daily cap <b>$0.05 USD₮</b> and <b>$0.05 USDC</b>, enforced by the account</li>
-  <li>Call allowlist: the USD₮ token contract only</li>
+  <li>May call: <b><code>USDC.transfer</code></b> (to top up the spending key) and the USD₮ contract; nothing else</li>
+  <li>Every top-up and its relay fee count against today's onchain USDC cap (<code>node scripts/session-status.mjs</code> reads it live)</li>
   <li>Expires <b>${expiry.toUTCString().slice(5, 16)}</b> (14 days); revocable in one tx (<code>scripts/altana-revoke.mjs</code>)</li>
   <li>Session record: <a href="${REPO}/blob/main/session.celo.json">session.celo.json</a></li>
  </ul></div>
@@ -152,7 +166,7 @@ ul{padding-left:20px}li{margin:4px 0}
   <li>Payee allowlist: buy's <code>payTo</code> only; host allowlist: <code>gateway.usebuy.ai</code></li>
   <li>Tokens: USDC, USD₮, USAT on Celo; network <code>eip155:42220</code> only</li>
   <li>Runs inside the x402 client's <code>onBeforePaymentCreation</code> hook, so a refused payment is never signed</li>
-  <li>Spending key holds at most one day's cap, topped up by the owner</li>
+  <li>The spending key only holds what the session key sent it, so the onchain cap bounds what the agent can spend each day</li>
  </ul></div>
 </div></section>
 
@@ -167,24 +181,24 @@ ${setup.map(([a, h]) => `<tr><td>${a}</td><td><a href="${SCAN}/tx/${h}">${short(
 ${payRows}
 ${refRows}
 </table>
-<p style="font-size:14px;color:var(--mut)">Payer for these calls: <a href="${SCAN}/address/0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad#tokentxns"><code>0xB1809549…95ad</code></a>, the capped spending key (see below). Payee: buy's facilitator <code>0x20faAca5…333B</code>.</p>
+<p style="font-size:14px;color:var(--mut)"><span class="pill">Altana-funded</span> = paid from the float the Altana session key sent (top-up tx above). Payer for these calls: <a href="${SCAN}/address/0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad#tokentxns"><code>0xB1809549…95ad</code></a>, the capped spending key (see below). Payee: buy's facilitator <code>0x20faAca5…333B</code>.</p>
 </section>
 
 <section id="finding"><h2>What we found about x402 from a smart account</h2>
 <div class="note">
 <p><b>1. Header mismatch, now fixed.</b> buy's gateway reads <code>X-PAYMENT</code> (v1) before <code>PAYMENT-SIGNATURE</code> (v2). Altana's SDK sends both, so the v1 header was matched against v1 offers (<code>celo</code>, not <code>eip155:42220</code>) and failed with <code>no_matching_requirements</code>. Our Altana payer now sends v2 only.</p>
 <p><b>2. ERC-1271 signatures rejected.</b> buy's facilitator then answers <code>malformed_payload</code> for the Altana session signature (98 bytes, ERC-1271). As of Nov 25, 2026 it only accepts 65-byte EOA signatures. The ${altanaRejected.length} rejected session payments are in the ledger (rail <code>altana-session-erc1271</code>, ${et(altanaRejected[0]?.at || new Date().toISOString())} to ${et(altanaRejected.at(-1)?.at || new Date().toISOString())}); none settled.</p>
-<p style="margin-bottom:0"><b>Our workaround:</b> paid calls go through a separate spending key that the owner tops up with no more than one day's cap ($0.05), so the worst case equals the Altana cap. The SpendPolicy and ledger apply to every call. When the facilitator accepts ERC-1271, <code>SPENDGUARD_PAYER=altana</code> switches payments to the session key (<a href="${REPO}/blob/main/src/payers/altana.mjs">src/payers/altana.mjs</a>).</p>
+<p style="margin-bottom:0"><b>How the session key still funds and caps the payments:</b> the session key may call <code>USDC.transfer</code> under its onchain $0.05/day cap. Once a day it moves the day's float from the smart wallet to a plain x402 spending key, whose 65-byte EIP-3009 signatures buy accepts. The spending key holds only what the session key sent it, so the Altana cap bounds the agent's spending. The SpendPolicy and ledger check every call before it is signed. From ${et(firstTopup)} on, every payment is funded this way. When the facilitator accepts ERC-1271, <code>SPENDGUARD_PAYER=altana</code> pays straight from the session key (<a href="${REPO}/blob/main/src/payers/altana.mjs">src/payers/altana.mjs</a>).</p>
 </div></section>
 
 <section id="demo"><h2>Demo</h2>
 <video controls preload="metadata" poster="shots/poster.png" src="demo.mp4"></video>
-<p style="font-size:14px;color:var(--mut)">A real mainnet run: two paid calls settle, then the daily cap refuses the next one. <a href="demo.mp4">Direct MP4 link</a>.</p>
+<p style="font-size:14px;color:var(--mut)">Real mainnet runs: paid calls settle and the daily cap refuses the next one, then the Altana session key funds the spending key and the agent pays from that float. <a href="demo.mp4">Direct MP4 link</a>.</p>
 </section>
 
 <section id="briefs"><h2>Briefs</h2>
 <table><tr><th>Brief</th><th>Notes</th></tr>
-${briefs.map(([s, n, d]) => `<tr><td><a href="briefs/2026-11-25-${s}.html">${n}</a> · <a href="${REPO}/blob/main/reports/2026-11-25-${s}.md">md</a></td><td>${d || "first mainnet batch (before the relevance filter)"}</td></tr>`).join("\n")}
+${briefs.map(([s, n, d]) => `<tr><td><a href="briefs/${s}.html">${n}</a> · <a href="${REPO}/blob/main/reports/${s}.md">md</a></td><td>${d || "first mainnet batch (before the relevance filter)"}</td></tr>`).join("\n")}
 </table>
 <p><b>Want a brief?</b> <a href="${REPO}/issues/new?title=Brief%20request:%20&body=Project%20name:%0ARepo%20(owner/name):%0ASearch%20terms:">Open an issue</a> with your project name and repo. Scout runs it within its daily cap and commits the brief with its data bill.</p>
 </section>

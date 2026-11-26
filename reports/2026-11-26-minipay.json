@@ -1,0 +1,117 @@
+{
+  "project": "MiniPay",
+  "query": "MiniPay",
+  "repo": null,
+  "started": "2026-11-26T00:01:45.520Z",
+  "finished": "2026-11-26T00:02:22.521Z",
+  "network": "celo",
+  "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+  "payerKind": "eoa",
+  "score": {
+    "total": 21,
+    "parts": {
+      "github": 0,
+      "hackerNews": 0,
+      "x": 21,
+      "reddit": 0
+    }
+  },
+  "github": null,
+  "hackerNews": {
+    "stories": 0,
+    "points": 0,
+    "top": []
+  },
+  "x": {
+    "ok": true,
+    "returned": 20,
+    "keyTerm": "minipay",
+    "count": 7,
+    "recent": 7,
+    "views": 2600,
+    "sample": [
+      {
+        "title": "I Got $50 From MiniPay Lucky Booster! Here's How It Works",
+        "views": 1190,
+        "author": "E-Reviews",
+        "published": "2 weeks ago",
+        "url": "https://www.youtube.com/watch?v=3yfOnajDwS8"
+      },
+      {
+        "title": "I Tested This App: Is the Signup & Withdrawal Real? Minipay App",
+        "views": 458,
+        "author": "Earning Trick By Kishan",
+        "published": "2 weeks ago",
+        "url": "https://www.youtube.com/watch?v=d3VfsPWiOtA"
+      },
+      {
+        "title": "MINIPAY AND HALO-MINI -02. ANOTHER MASSIVE WITHDRAWAL TODAY.",
+        "views": 93,
+        "author": "Soul Heart Stories",
+        "published": "2 weeks ago",
+        "url": "https://www.youtube.com/watch?v=quQ75Lzekuk"
+      }
+    ],
+    "source": "youtube",
+    "xError": "{\"error\":\"provider_error\",\"providerStatus\":400,\"paymentSettled\":false,\"retryable\":false,\"correlationId\":\"d969b0497ca7\"}"
+  },
+  "reddit": {
+    "ok": true,
+    "returned": 7,
+    "keyTerm": "minipay",
+    "count": 0,
+    "score": 0,
+    "comments": 0,
+    "sample": []
+  },
+  "receipts": [
+    {
+      "at": "2026-11-26T00:02:16.596Z",
+      "day": "2026-11-26",
+      "network": "eip155:42220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/youtube/videos/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0xcebA9300f2b948710d2653dD7B07f33A8B32118C",
+      "amount": "5000",
+      "tx": "0x8f82fdc27b05c88d463e682668ab912fd391335e541106e53554aa818e89c572",
+      "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+      "rail": "eoa-eip3009",
+      "source": "youtube.videos.search",
+      "query": "MiniPay"
+    },
+    {
+      "at": "2026-11-26T00:02:22.511Z",
+      "day": "2026-11-26",
+      "network": "eip155:42220",
+      "kind": "paid",
+      "url": "https://gateway.usebuy.ai/v1/social/reddit/posts/search",
+      "status": 200,
+      "payTo": "0x20faAca5F980E29639A0FCC6dcA6988E18ed333B",
+      "asset": "0xcebA9300f2b948710d2653dD7B07f33A8B32118C",
+      "amount": "5000",
+      "tx": "0x7dd01d82f09b9441b1b3389203090c5981f9e3701da8c2e953140a1d8ca0012d",
+      "payer": "0xB18095490A9f775d22Ffd7ce7b833AaC510A95ad",
+      "rail": "eoa-eip3009",
+      "source": "reddit.posts.search",
+      "query": "MiniPay"
+    }
+  ],
+  "budget": {
+    "network": "eip155:42220",
+    "payments": 14,
+    "refusals": 1,
+    "totalAtomic": "70000",
+    "spentTodayAtomic": "20000",
+    "dailyCapAtomic": "50000",
+    "maxPerCallAtomic": "10000"
+  },
+  "errors": [],
+  "funding": {
+    "rail": "altana-session",
+    "from": "0xC17733165C47f80E56b1c6eD61E8988296CA8f82",
+    "amount": "25000",
+    "tx": "0xb460d2bd872edc4d19c1f85e63adc174564439cabe66ac01141b0b8d3f1c0227"
+  }
+}
